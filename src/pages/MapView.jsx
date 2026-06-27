@@ -55,13 +55,15 @@ export default function MapView() {
       })
       if (filtered.length) mapObj.current.fitBounds(bounds)
 
-      // heatmap
+      // heatmap (guarded — HeatmapLayer removed in newer Maps versions)
       if (heat.current) { heat.current.setMap(null); heat.current = null }
-      if (showHeat && google.maps.visualization) {
-        heat.current = new google.maps.visualization.HeatmapLayer({
-          data: filtered.map((r) => new google.maps.LatLng(r.geo.lat, r.geo.lng)),
-          map: mapObj.current, radius: 40,
-        })
+      if (showHeat && google.maps.visualization?.HeatmapLayer) {
+        try {
+          heat.current = new google.maps.visualization.HeatmapLayer({
+            data: filtered.map((r) => new google.maps.LatLng(r.geo.lat, r.geo.lng)),
+            map: mapObj.current, radius: 40,
+          })
+        } catch (e) { console.warn('Heatmap unavailable:', e.message) }
       }
     })
   }, [ready, reports, cat, status, showHeat])
