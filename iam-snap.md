@@ -1,0 +1,619 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - complementary [ref=e602]:
+        - link [ref=e603] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e7]: Skip to main content
+        - button [ref=e604]:
+          - generic [ref=e9]: Keyboard shortcuts
+        - link [ref=e605] [cursor=pointer]:
+          - /url: https://cloud.google.com/docs/accessibility?hl=en_US
+          - generic [ref=e11]:
+            - text: Accessibility Help
+            - img [ref=e607]:
+              - img [ref=e14]
+        - link [ref=e608] [cursor=pointer]:
+          - /url: https://support.google.com/accessibility/contact/feedback?hl=en_US
+          - generic [ref=e17]:
+            - text: Accessibility Feedback
+            - img [ref=e610]:
+              - img [ref=e20]
+      - banner [ref=e23]:
+        - generic [ref=e24]:
+          - navigation [ref=e27]:
+            - button [ref=e611] [cursor=pointer]:
+              - img [ref=e30]
+          - link [ref=e612] [cursor=pointer]:
+            - /url: /?project=civicpulse-vibe2ship
+            - generic:
+              - img
+          - button [ref=e613]:
+            - generic [ref=e614]:
+              - img [ref=e616]
+              - generic [ref=e619]: CivicPulse
+        - search [ref=e620]:
+          - combobox [ref=e47]:
+            - searchbox [ref=e621]
+          - button [disabled]:
+            - generic:
+              - img
+            - generic: Search
+        - generic [ref=e49]:
+          - generic [ref=e50]:
+            - button [ref=e625] [cursor=pointer]:
+              - img [ref=e627]
+            - button [ref=e629] [cursor=pointer]:
+              - img [ref=e631]
+            - button [ref=e633] [cursor=pointer]:
+              - generic [ref=e636]: "3"
+            - button [ref=e637] [cursor=pointer]:
+              - img [ref=e67]
+          - button [ref=e640]:
+            - img [ref=e641]
+    - generic [ref=e80]:
+      - generic [ref=e642]:
+        - status [ref=e648]:
+          - img [ref=e651]:
+            - img [ref=e652]
+          - generic [ref=e654]:
+            - generic [ref=e655]: "Attention Customers from India: As of October 1st, due to regulatory changes by the Reserve Bank of India, we will not be able to charge your card for recurring payments if you have not set up an e-mandate or if the transaction is above 5000 INR. If your payments are being declined, Billing administrators will have to log into their Payments account and manually reauthorize the payments."
+            - link [ref=e656] [cursor=pointer]:
+              - /url: https://cloud.google.com/billing/docs/release-notes
+              - text: Read more
+          - button [ref=e658]:
+            - generic [ref=e659]: Dismiss
+        - navigation [ref=e663]:
+          - link [ref=e666] [cursor=pointer]:
+            - /url: /iam-admin?project=civicpulse-vibe2ship
+            - img [ref=e669]
+            - generic [ref=e673]: IAM & Admin
+          - list [ref=e674]:
+            - listitem [ref=e675]:
+              - generic [ref=e676]: /
+              - link [ref=e679] [cursor=pointer]:
+                - /url: /iam-admin/iam?project=civicpulse-vibe2ship
+                - generic [ref=e681]: IAM
+      - generic [ref=e91]:
+        - navigation [ref=e682]:
+          - generic [ref=e99]:
+            - generic [ref=e111]:
+              - group [ref=e683]:
+                - heading [level=3] [ref=e684]:
+                  - button [expanded] [ref=e685]:
+                    - generic [ref=e120]:
+                      - generic [ref=e121]: Identity & Access
+                      - img [ref=e125]
+                - list [ref=e686]:
+                  - listitem [ref=e128]:
+                    - generic [ref=e131]:
+                      - link [ref=e687] [cursor=pointer]:
+                        - /url: /iam-admin/iam?project=civicpulse-vibe2ship
+                        - generic [ref=e133]:
+                          - img [ref=e136]
+                          - generic [ref=e138]: IAM
+                      - button [ref=e688] [cursor=pointer]:
+                        - img [ref=e142]
+                  - listitem [ref=e144]:
+                    - generic [ref=e147]:
+                      - link [ref=e689] [cursor=pointer]:
+                        - /url: /iam-admin/serviceaccounts?project=civicpulse-vibe2ship
+                        - generic [ref=e149]:
+                          - img [ref=e152]
+                          - generic [ref=e154]: Service Accounts
+                      - button [ref=e690] [cursor=pointer]:
+                        - img [ref=e158]
+                  - listitem [ref=e160]:
+                    - generic [ref=e163]:
+                      - link [ref=e691] [cursor=pointer]:
+                        - /url: /iam-admin/groups?project=civicpulse-vibe2ship
+                        - generic [ref=e165]:
+                          - img [ref=e168]
+                          - generic [ref=e170]: Groups
+                      - button [ref=e692] [cursor=pointer]:
+                        - img [ref=e174]
+                  - listitem [ref=e176]:
+                    - generic [ref=e179]:
+                      - link [ref=e693] [cursor=pointer]:
+                        - /url: /iam-admin/pam?project=civicpulse-vibe2ship
+                        - generic [ref=e181]:
+                          - img [ref=e184]
+                          - generic [ref=e189]: Privileged Access Manager
+                      - button [ref=e694] [cursor=pointer]:
+                        - img [ref=e193]
+                  - listitem [ref=e195]:
+                    - generic [ref=e198]:
+                      - link [ref=e695] [cursor=pointer]:
+                        - /url: /iam-admin/roles?project=civicpulse-vibe2ship
+                        - generic [ref=e200]:
+                          - img [ref=e203]
+                          - generic [ref=e205]: Roles
+                      - button [ref=e696] [cursor=pointer]:
+                        - img [ref=e209]
+                  - listitem [ref=e211]:
+                    - generic [ref=e214]:
+                      - link [ref=e697] [cursor=pointer]:
+                        - /url: /iam-admin/workload-identity-pools?project=civicpulse-vibe2ship
+                        - generic [ref=e216]:
+                          - img [ref=e219]
+                          - generic [ref=e222]: Workload Identity Federation
+                      - button [ref=e698] [cursor=pointer]:
+                        - img [ref=e226]
+                  - listitem [ref=e228]:
+                    - generic [ref=e231]:
+                      - link [ref=e699] [cursor=pointer]:
+                        - /url: /iam-admin/workforce-identity-pools?project=civicpulse-vibe2ship
+                        - generic [ref=e233]:
+                          - img [ref=e236]
+                          - generic [ref=e238]: Workforce Identity Federation
+                      - button [ref=e700] [cursor=pointer]:
+                        - img [ref=e242]
+                  - listitem [ref=e244]:
+                    - generic [ref=e247]:
+                      - link [ref=e701] [cursor=pointer]:
+                        - /url: /iam-admin/principal-access-boundary?project=civicpulse-vibe2ship
+                        - generic [ref=e249]:
+                          - img [ref=e252]
+                          - generic [ref=e254]: Principal Access Boundary
+                      - button [ref=e702] [cursor=pointer]:
+                        - img [ref=e258]
+              - group [ref=e703]:
+                - heading [level=3] [ref=e704]:
+                  - button [expanded] [ref=e705]:
+                    - generic [ref=e268]:
+                      - generic [ref=e269]: Resource Management
+                      - img [ref=e273]
+                - list [ref=e706]:
+                  - listitem [ref=e276]:
+                    - generic [ref=e279]:
+                      - link [ref=e707] [cursor=pointer]:
+                        - /url: /iam-admin/orgpolicies?project=civicpulse-vibe2ship
+                        - generic [ref=e281]:
+                          - img [ref=e284]
+                          - generic [ref=e286]: Organization Policies
+                      - button [ref=e708] [cursor=pointer]:
+                        - img [ref=e290]
+                  - listitem [ref=e292]:
+                    - generic [ref=e295]:
+                      - link [ref=e709] [cursor=pointer]:
+                        - /url: /iam-admin/asset-inventory?project=civicpulse-vibe2ship
+                        - generic [ref=e297]:
+                          - img [ref=e300]
+                          - generic [ref=e302]: Asset Inventory
+                      - button [ref=e710] [cursor=pointer]:
+                        - img [ref=e306]
+                  - listitem [ref=e308]:
+                    - generic [ref=e311]:
+                      - link [ref=e711] [cursor=pointer]:
+                        - /url: /iam-admin/settings?project=civicpulse-vibe2ship
+                        - generic [ref=e313]:
+                          - img [ref=e316]
+                          - generic [ref=e318]: Settings
+                      - button [ref=e712] [cursor=pointer]:
+                        - img [ref=e322]
+                  - listitem [ref=e324]:
+                    - generic [ref=e327]:
+                      - link [ref=e713] [cursor=pointer]:
+                        - /url: /iam-admin/labels?project=civicpulse-vibe2ship
+                        - generic [ref=e329]:
+                          - img [ref=e332]
+                          - generic [ref=e334]: Labels
+                      - button [ref=e714] [cursor=pointer]:
+                        - img [ref=e338]
+                  - listitem [ref=e340]:
+                    - generic [ref=e343]:
+                      - link [ref=e715] [cursor=pointer]:
+                        - /url: /iam-admin/tags?project=civicpulse-vibe2ship
+                        - generic [ref=e345]:
+                          - img [ref=e348]
+                          - generic [ref=e350]: Tags
+                      - button [ref=e716] [cursor=pointer]:
+                        - img [ref=e354]
+              - group [ref=e717]:
+                - heading [level=3] [ref=e718]:
+                  - button [expanded] [ref=e719]:
+                    - generic [ref=e364]:
+                      - generic [ref=e365]: Diagnostic Tools
+                      - img [ref=e369]
+                - list [ref=e720]:
+                  - listitem [ref=e372]:
+                    - generic [ref=e375]:
+                      - link [ref=e721] [cursor=pointer]:
+                        - /url: /iam-admin/security-insights?project=civicpulse-vibe2ship
+                        - generic [ref=e377]:
+                          - img [ref=e380]
+                          - generic [ref=e382]:
+                            - text: Security Insights
+                            - img [ref=e722]: preview
+                      - button [ref=e723] [cursor=pointer]:
+                        - img [ref=e388]
+                  - listitem [ref=e390]:
+                    - generic [ref=e393]:
+                      - link [ref=e724] [cursor=pointer]:
+                        - /url: /iam-admin/analyzer?project=civicpulse-vibe2ship
+                        - generic [ref=e395]:
+                          - img [ref=e398]
+                          - generic [ref=e400]: Policy Analyzer
+                      - button [ref=e725] [cursor=pointer]:
+                        - img [ref=e404]
+                  - listitem [ref=e406]:
+                    - generic [ref=e409]:
+                      - link [ref=e726] [cursor=pointer]:
+                        - /url: /iam-admin/troubleshooter?project=civicpulse-vibe2ship
+                        - generic [ref=e411]:
+                          - img [ref=e414]
+                          - generic [ref=e416]: Policy Troubleshooter
+                      - button [ref=e727] [cursor=pointer]:
+                        - img [ref=e420]
+              - group [ref=e728]:
+                - heading [level=3] [ref=e729]:
+                  - button [expanded] [ref=e730]:
+                    - generic [ref=e430]:
+                      - generic [ref=e431]: Cloud Administration
+                      - img [ref=e435]
+                - list [ref=e731]:
+                  - listitem [ref=e438]:
+                    - generic [ref=e441]:
+                      - link [ref=e732] [cursor=pointer]:
+                        - /url: /iam-admin/quotas?project=civicpulse-vibe2ship
+                        - generic [ref=e443]:
+                          - img [ref=e446]
+                          - generic [ref=e448]: Quotas & System Limits
+                      - button [ref=e733] [cursor=pointer]:
+                        - img [ref=e452]
+                  - listitem [ref=e454]:
+                    - generic [ref=e457]:
+                      - link [ref=e734] [cursor=pointer]:
+                        - /url: /iam-admin/audit?project=civicpulse-vibe2ship
+                        - generic [ref=e459]:
+                          - img [ref=e462]
+                          - generic [ref=e464]: Audit logs
+                      - button [ref=e735] [cursor=pointer]:
+                        - img [ref=e468]
+                  - listitem [ref=e470]:
+                    - generic [ref=e473]:
+                      - link [ref=e736] [cursor=pointer]:
+                        - /url: /iam-admin/cloudidentity/consumer?project=civicpulse-vibe2ship
+                        - generic [ref=e475]:
+                          - img [ref=e478]
+                          - generic [ref=e480]: Identity & Organization
+                      - button [ref=e737] [cursor=pointer]:
+                        - img [ref=e484]
+                  - listitem [ref=e486]:
+                    - generic [ref=e489]:
+                      - link [ref=e738] [cursor=pointer]:
+                        - /url: /iam-admin/essential-contacts?project=civicpulse-vibe2ship
+                        - generic [ref=e491]:
+                          - img [ref=e494]
+                          - generic [ref=e496]: Essential Contacts
+                      - button [ref=e739] [cursor=pointer]:
+                        - img [ref=e500]
+                  - listitem [ref=e502]:
+                    - generic [ref=e505]:
+                      - link [ref=e740] [cursor=pointer]:
+                        - /url: /iam-admin/privacy?project=civicpulse-vibe2ship
+                        - generic [ref=e507]:
+                          - img [ref=e510]
+                          - generic [ref=e512]: Privacy & Security
+                      - button [ref=e741] [cursor=pointer]:
+                        - img [ref=e516]
+              - group [ref=e742]:
+                - heading [level=3] [ref=e743]:
+                  - button [expanded] [ref=e744]:
+                    - generic [ref=e526]:
+                      - generic [ref=e527]: Access Risk
+                      - img [ref=e531]
+                - list [ref=e745]:
+                  - listitem [ref=e534]:
+                    - generic [ref=e537]:
+                      - link [ref=e746] [cursor=pointer]:
+                        - /url: /iam-admin/iap?project=civicpulse-vibe2ship
+                        - generic [ref=e539]:
+                          - img [ref=e542]
+                          - generic [ref=e544]: Identity-Aware Proxy
+                      - button [ref=e747] [cursor=pointer]:
+                        - img [ref=e548]
+            - generic [ref=e553]:
+              - link [ref=e748] [cursor=pointer]:
+                - /url: /cloud-resource-manager?project=civicpulse-vibe2ship
+                - img [ref=e557]:
+                  - img [ref=e558]
+                - generic [ref=e560]: Manage Resources
+              - separator [ref=e561]
+              - button [ref=e749]:
+                - img [ref=e565]:
+                  - img [ref=e566]
+                - generic [ref=e568]: Release Notes
+            - button [pressed] [ref=e750] [cursor=pointer]:
+              - img [ref=e573]
+        - main [ref=e576]:
+          - generic [ref=e761]:
+            - generic [ref=e764]:
+              - heading [level=1] [ref=e767]:
+                - generic [ref=e768]: IAM
+              - button [ref=e774]:
+                - img [ref=e776]:
+                  - img [ref=e777]
+                - generic [ref=e779]: Learn
+            - tablist [ref=e780]:
+              - generic [ref=e783]:
+                - tab [selected] [ref=e784] [cursor=pointer]:
+                  - generic [ref=e786]: Allow
+                - tab [ref=e787] [cursor=pointer]:
+                  - generic [ref=e790]: Deny
+                - tab [ref=e791] [cursor=pointer]:
+                  - generic [ref=e794]: Recommendations history
+            - tabpanel [ref=e795]:
+              - generic [ref=e800]:
+                - heading [level=2] [ref=e801]: Permissions for project "CivicPulse"
+                - paragraph [ref=e802]:
+                  - text: These permissions affect this project and all of its resources.
+                  - link [ref=e803] [cursor=pointer]:
+                    - /url: https://cloud.google.com/iam/help/roles/predefined-roles-reference
+                    - text: Learn more
+                    - img [ref=e804]:
+                      - img [ref=e805]
+                - generic [ref=e807]:
+                  - generic [ref=e808]:
+                    - generic [ref=e810]:
+                      - generic [ref=e811] [cursor=pointer]:
+                        - checkbox [ref=e812]
+                        - generic:
+                          - img
+                      - generic [ref=e813] [cursor=pointer]: Include Google-provided role grants
+                    - button [ref=e815] [cursor=pointer]:
+                      - img [ref=e817]
+                  - generic [ref=e819]:
+                    - tablist [ref=e822]:
+                      - generic [ref=e823]:
+                        - tab [selected] [ref=e824] [cursor=pointer]:
+                          - generic [ref=e826]: View by principals
+                        - tab [ref=e827] [cursor=pointer]:
+                          - generic [ref=e829]: View by roles
+                    - generic [ref=e830]:
+                      - tabpanel [ref=e831]:
+                        - generic [ref=e835]:
+                          - generic [ref=e838]:
+                            - button [ref=e840]:
+                              - img [ref=e842]
+                              - generic [ref=e845]: Grant access
+                            - button [disabled] [ref=e847]:
+                              - img [ref=e849]
+                              - generic [ref=e851]: Remove access
+                          - generic [ref=e854]:
+                            - generic [ref=e855]:
+                              - img [ref=e857]
+                              - generic [ref=e859]: Filter
+                              - group [ref=e860]:
+                                - combobox [ref=e862]: Enter property name or value
+                              - button [ref=e864] [cursor=pointer]:
+                                - img [ref=e866]
+                            - button [expanded] [ref=e871] [cursor=pointer]:
+                              - img [ref=e873]
+                          - grid [ref=e878]:
+                            - rowgroup [ref=e887]:
+                              - row [ref=e888]:
+                                - gridcell [ref=e889]:
+                                  - checkbox [ref=e890] [cursor=pointer]
+                                - columnheader [ref=e891]:
+                                  - generic [ref=e893] [cursor=pointer]:
+                                    - generic [ref=e894]: Type
+                                    - button [ref=e895]:
+                                      - img [ref=e897]
+                                - columnheader [ref=e899]:
+                                  - generic [ref=e901] [cursor=pointer]:
+                                    - generic [ref=e902]: Principal
+                                    - button [ref=e903]:
+                                      - img [ref=e905]
+                                - columnheader [ref=e907]:
+                                  - generic [ref=e909] [cursor=pointer]:
+                                    - generic [ref=e910]: Name
+                                    - button [ref=e911]:
+                                      - img [ref=e913]
+                                - columnheader [ref=e915]:
+                                  - generic [ref=e917]: Role
+                                - columnheader [ref=e918]:
+                                  - generic [ref=e920]:
+                                    - text: Security insights
+                                    - button [ref=e922] [cursor=pointer]:
+                                      - img [ref=e924]
+                                - columnheader [ref=e926]
+                            - rowgroup [ref=e927]:
+                              - row [ref=e928]:
+                                - gridcell [ref=e929]:
+                                  - checkbox [ref=e931] [cursor=pointer]
+                                - gridcell [ref=e932]:
+                                  - img [ref=e935]:
+                                    - img [ref=e936]
+                                - rowheader [ref=e938]:
+                                  - generic [ref=e940]: 835281878241-compute@developer.gserviceaccount.com
+                                - gridcell [ref=e941]:
+                                  - generic [ref=e942]: Default compute service account
+                                - gridcell [ref=e943]:
+                                  - list [ref=e944]:
+                                    - listitem [ref=e945]:
+                                      - generic [ref=e947]: Editor
+                                - gridcell [ref=e948]:
+                                  - list [ref=e949]:
+                                    - listitem [ref=e950]
+                                - gridcell [ref=e953]:
+                                  - button [ref=e955] [cursor=pointer]:
+                                    - img [ref=e957]
+                              - row [ref=e959]:
+                                - gridcell [ref=e960]:
+                                  - checkbox [ref=e962] [cursor=pointer]
+                                - gridcell [ref=e963]:
+                                  - img [ref=e966]:
+                                    - img [ref=e967]
+                                - rowheader [ref=e969]:
+                                  - generic [ref=e971]: aarizrasheed2345@gmail.com
+                                - gridcell [ref=e972]: AARIZ Rasheed
+                                - gridcell [ref=e973]:
+                                  - list [ref=e974]:
+                                    - listitem [ref=e975]:
+                                      - generic [ref=e977]: Owner
+                                - gridcell [ref=e978]:
+                                  - list [ref=e979]:
+                                    - listitem [ref=e980]
+                                - gridcell [ref=e983]:
+                                  - button [ref=e985] [cursor=pointer]:
+                                    - img [ref=e987]
+                              - row [ref=e989]:
+                                - gridcell [ref=e990]:
+                                  - checkbox [ref=e992] [cursor=pointer]
+                                - gridcell [ref=e993]:
+                                  - img [ref=e996]:
+                                    - img [ref=e997]
+                                - rowheader [ref=e999]:
+                                  - generic [ref=e1001]: civicpulse-vibe2ship@appspot.gserviceaccount.com
+                                - gridcell [ref=e1002]:
+                                  - generic [ref=e1003]: App Engine default service account
+                                - gridcell [ref=e1004]:
+                                  - list [ref=e1005]:
+                                    - listitem [ref=e1006]:
+                                      - generic [ref=e1008]: Editor
+                                - gridcell [ref=e1009]:
+                                  - list [ref=e1010]:
+                                    - listitem [ref=e1011]
+                                - gridcell [ref=e1014]:
+                                  - button [ref=e1016] [cursor=pointer]:
+                                    - img [ref=e1018]
+                              - row [ref=e1020]:
+                                - gridcell [ref=e1021]:
+                                  - checkbox [ref=e1023] [cursor=pointer]
+                                - gridcell [ref=e1024]:
+                                  - img [ref=e1027]:
+                                    - img [ref=e1028]
+                                - rowheader [ref=e1030]:
+                                  - generic [ref=e1032]: firebase-adminsdk-fbsvc@civicpulse-vibe2ship.iam.gserviceaccount.com
+                                - gridcell [ref=e1033]:
+                                  - generic [ref=e1034]: firebase-adminsdk
+                                - gridcell [ref=e1035]:
+                                  - list [ref=e1036]:
+                                    - listitem [ref=e1037]:
+                                      - generic [ref=e1039]: Firebase Admin SDK Administrator Service Agent
+                                    - listitem [ref=e1040]:
+                                      - generic [ref=e1042]: Firebase Authentication Admin
+                                    - listitem [ref=e1043]:
+                                      - generic [ref=e1045]: Service Account Token Creator
+                                - gridcell [ref=e1046]:
+                                  - list [ref=e1047]:
+                                    - listitem [ref=e1048]
+                                    - listitem [ref=e1051]
+                                    - listitem [ref=e1054]
+                                - gridcell [ref=e1057]:
+                                  - button [ref=e1059] [cursor=pointer]:
+                                    - img [ref=e1061]
+                      - tabpanel [ref=e1063]
+  - iframe [ref=e600]:
+    
+  - iframe [ref=e1065]:
+    
+  - generic:
+    - dialog [ref=e1202]:
+      - generic [ref=e1071]:
+        - heading [level=1] [ref=e1203]:
+          - generic [ref=e1078]: Grant access to "CivicPulse"
+        - generic [ref=e1080]:
+          - paragraph [ref=e1081]:
+            - text: Grant principals access to this resource and add roles to specify what actions the principals can take. Optionally, add conditions to grant access to principals only when a specific criteria is met.
+            - link [ref=e1204] [cursor=pointer]:
+              - /url: https://cloud.google.com/iam/docs/conditions-overview
+              - text: Learn more about IAM conditions
+              - img [ref=e1205]:
+                - img [ref=e1084]
+          - heading [level=2] [ref=e1206]: Resource
+          - paragraph [ref=e1087]:
+            - img [ref=e1207]:
+              - img [ref=e1090]
+            - text: CivicPulse
+          - generic [ref=e1092]:
+            - heading [level=2] [ref=e1208]: Add principals
+            - paragraph [ref=e1094]:
+              - text: Principals are users, groups, domains, or service accounts.
+              - link [ref=e1209] [cursor=pointer]:
+                - /url: https://cloud.google.com/iam/docs/principal-identifiers
+                - text: Learn more about principals in IAM
+                - img [ref=e1210]:
+                  - img [ref=e1097]
+            - generic [ref=e1103] [cursor=pointer]:
+              - generic [ref=e1104]:
+                - generic [ref=e1105]: New principals
+                - generic [ref=e1106]: "*"
+              - generic [ref=e1108]:
+                - grid [ref=e1211]:
+                  - row [ref=e1212]:
+                    - gridcell [ref=e1213]:
+                      - generic [ref=e1195]: 835281878241-compute@developer.gserviceaccount.com
+                    - gridcell [ref=e1214]:
+                      - button [ref=e1215]:
+                        - img [ref=e1199]
+                - combobox [ref=e1216]
+              - button [ref=e1217]:
+                - img [ref=e1114]
+            - heading [level=2] [ref=e1218]: Assign roles
+            - paragraph [ref=e1117]:
+              - text: Roles are composed of sets of permissions and determine what the principal can do with this resource.
+              - link [ref=e1219] [cursor=pointer]:
+                - /url: https://cloud.google.com/iam/help/roles/reference
+                - text: Learn more
+                - img [ref=e1220]:
+                  - img [ref=e1120]
+            - generic [ref=e1125]:
+              - generic [ref=e1128]:
+                - generic [ref=e1132] [cursor=pointer]:
+                  - generic [ref=e1133]:
+                    - text: Select a role
+                    - generic [ref=e1134]: "*"
+                  - combobox [ref=e1221]:
+                    - img [ref=e1140]
+                - generic [ref=e1145]:
+                  - generic [ref=e1149]:
+                    - paragraph [ref=e1150]:
+                      - text: IAM condition (optional)
+                      - button [ref=e1222] [cursor=pointer]:
+                        - img [ref=e1154]
+                    - button [ref=e1223]:
+                      - img [ref=e1158]
+                      - generic [ref=e1160]: Add IAM condition
+                  - button [disabled] [ref=e1224]:
+                    - img [ref=e1163]
+              - button [disabled] [ref=e1225]:
+                - img [ref=e1167]
+                - generic [ref=e1169]: Add another role
+              - button [ref=e1226]:
+                - img [ref=e1174]
+                - generic [ref=e1176]: Help me choose roles
+        - generic [ref=e1179]:
+          - button [ref=e1227]:
+            - generic [ref=e1181]: Save
+          - button [ref=e1228]:
+            - generic [ref=e1183]: Cancel
+    - dialog "Displayed columns" [ref=e1231]:
+      - generic [ref=e1233]:
+        - generic [ref=e1234]: Displayed columns
+        - group "Displayed columns" [ref=e1235]:
+          - generic "All 5 selected" [ref=e1237]:
+            - generic [ref=e1238]:
+              - generic [ref=e1239] [cursor=pointer]:
+                - checkbox "All 5 selected" [checked] [active] [ref=e1240]
+                - generic:
+                  - img
+              - generic [ref=e1241] [cursor=pointer]: All 5 selected
+          - group "Displayed column options" [ref=e1242]:
+            - checkbox "Type" [checked] [ref=e1243] [cursor=pointer]:
+              - generic [ref=e1245]: Type
+            - checkbox "Principal" [checked] [ref=e1246] [cursor=pointer]:
+              - generic [ref=e1248]: Principal
+            - checkbox "Name" [checked] [ref=e1249] [cursor=pointer]:
+              - generic [ref=e1251]: Name
+            - checkbox "Role" [checked] [ref=e1252] [cursor=pointer]:
+              - generic [ref=e1254]: Role
+            - checkbox "Security insight type" [checked] [ref=e1255] [cursor=pointer]:
+              - generic [ref=e1257]: Security insight type
+        - generic [ref=e1260]:
+          - button "Cancel" [ref=e1261]:
+            - generic [ref=e1262]: Cancel
+          - button "OK" [ref=e1263]:
+            - generic [ref=e1264]: OK
+  - status [ref=e1191]: 2 results showing.
