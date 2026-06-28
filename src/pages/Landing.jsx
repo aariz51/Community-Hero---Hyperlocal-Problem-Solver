@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useReports } from '../hooks/useReports'
 
 const HERO_VIDEO = '/hero.mp4'
-const FEAT_VIDEO = 'https://plugin-assets.open-design.ai/plugins/innovation/hf_20260402_054547_9875cfc5-155a-4229-8ec8-b7ba7125cbf8-eee511.mp4'
+const FEAT_VIDEO = '/approach.mp4'
 
 const STEPS = [
   ['01', 'Capture an issue', 'Residents submit photo evidence from the street, sidewalk, park, or building frontage.'],
