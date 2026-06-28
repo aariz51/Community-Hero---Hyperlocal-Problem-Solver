@@ -59,7 +59,7 @@ export default function AskAgent() {
     <div className="page narrow">
       <h2>Ask CivicPulse</h2>
       <p className="muted">An agent that uses live data + tools to answer and act.</p>
-      <div className="chat">
+      <div className="chat liquid-glass">
         {history.map((m, i) => (
           <div key={i} className={`bubble ${m.role}`}>{m.text}</div>
         ))}

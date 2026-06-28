@@ -4,6 +4,20 @@ import { useReports } from '../hooks/useReports'
 import { loadMaps } from '../lib/mapsLoader'
 import { CATEGORIES, CATEGORY_META, STATUS_LABEL, STATUS_FLOW } from '../agent/departments'
 
+const DARK_STYLE = [
+  { elementType: 'geometry', stylers: [{ color: '#0d0d0d' }] },
+  { elementType: 'labels.text.stroke', stylers: [{ color: '#0d0d0d' }] },
+  { elementType: 'labels.text.fill', stylers: [{ color: '#8a8a8a' }] },
+  { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+  { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+  { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#1f1f1f' }] },
+  { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: '#6b6b6b' }] },
+  { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#2a2a2a' }] },
+  { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#070707' }] },
+  { featureType: 'administrative', elementType: 'geometry', stylers: [{ color: '#2a2a2a' }] },
+  { featureType: 'landscape', elementType: 'geometry', stylers: [{ color: '#0d0d0d' }] },
+]
+
 export default function MapView() {
   const { reports } = useReports()
   const nav = useNavigate()
@@ -23,7 +37,7 @@ export default function MapView() {
       if (cancelled) return
       mapObj.current = new google.maps.Map(mapRef.current, {
         center: { lat: 28.6139, lng: 77.209 }, zoom: 11, mapTypeControl: false, streetViewControl: false,
-        styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }],
+        fullscreenControl: false, styles: DARK_STYLE, backgroundColor: '#0d0d0d',
       })
       setReady(true)
     }).catch((e) => setErr('Map failed to load. Check the Maps API key/billing. ' + e.message))

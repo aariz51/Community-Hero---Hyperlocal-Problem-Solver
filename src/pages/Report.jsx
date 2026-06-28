@@ -22,7 +22,8 @@ export default function Report() {
   const { user, login } = useAuth()
   const { reports } = useReports()
   const nav = useNavigate()
-  const fileRef = useRef()
+  const cameraRef = useRef()
+  const uploadRef = useRef()
   const [preview, setPreview] = useState(null)
   const [img, setImg] = useState(null) // {dataUrl, base64, mimeType}
   const [running, setRunning] = useState(false)
@@ -145,14 +146,21 @@ export default function Report() {
       <p className="muted">Snap a photo — the CivicPulse agent does the rest.</p>
 
       <div className="report-grid">
-        <div className="uploader" onClick={() => fileRef.current?.click()}>
-          {preview ? <img src={preview} alt="preview" /> : (
-            <div className="uploader-empty">
-              <div className="big">📸</div>
-              <div>Tap to take or upload a photo</div>
-            </div>
-          )}
-          <input ref={fileRef} type="file" accept="image/*" capture="environment" hidden onChange={onPick} />
+        <div>
+          <div className="uploader liquid-glass">
+            {preview ? <img src={preview} alt="preview" /> : (
+              <div className="uploader-empty">
+                <div className="big">📸</div>
+                <div>Add a photo of the civic issue</div>
+              </div>
+            )}
+          </div>
+          <div className="upload-choices">
+            <button className="btn btn-ghost liquid-glass" onClick={() => cameraRef.current?.click()}>📷 Take photo</button>
+            <button className="btn btn-ghost liquid-glass" onClick={() => uploadRef.current?.click()}>⬆️ Upload photo</button>
+          </div>
+          <input ref={cameraRef} type="file" accept="image/*" capture="environment" hidden onChange={onPick} />
+          <input ref={uploadRef} type="file" accept="image/*" hidden onChange={onPick} />
         </div>
 
         <div>
@@ -186,7 +194,7 @@ export default function Report() {
       )}
 
       {result && (
-        <div className="result-card">
+        <div className="result-card liquid-glass">
           <div className="result-head">
             <span className="cat-chip" style={{ background: CATEGORY_META[result.category]?.color }}>
               {CATEGORY_META[result.category]?.icon} {result.category}

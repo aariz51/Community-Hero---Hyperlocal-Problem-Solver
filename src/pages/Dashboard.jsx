@@ -43,7 +43,7 @@ export default function Dashboard() {
   })
   const hotspots = Object.values(clusters).filter((c) => c.n >= 2 || c.risk >= 70).sort((a, b) => (b.n + b.risk / 20) - (a.n + a.risk / 20)).slice(0, 6)
 
-  const stat = (n, l) => (<div className="d-stat"><b>{n}</b><span>{l}</span></div>)
+  const stat = (n, l) => (<div className="d-stat liquid-glass"><b>{n}</b><span>{l}</span></div>)
 
   return (
     <div className="page wide">
@@ -68,7 +68,7 @@ export default function Dashboard() {
       </div>
 
       <div className="d-cols">
-        <div className="d-card">
+        <div className="d-card liquid-glass">
           <h3>🚨 Triage queue <span className="muted">(by severity & risk)</span></h3>
           {queue.length === 0 && <p className="muted">No open issues 🎉</p>}
           {queue.slice(0, 8).map((r) => (
@@ -83,7 +83,7 @@ export default function Dashboard() {
           ))}
         </div>
 
-        <div className="d-card">
+        <div className="d-card liquid-glass">
           <h3>📊 By category</h3>
           {byCat.map((x) => (
             <div className="bar-row" key={x.c}>
