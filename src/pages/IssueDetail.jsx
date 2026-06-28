@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { getReport, advanceStatus, upvoteReport } from '../lib/reports'
+import { getReport, advanceStatus, upvoteReport, updateReportFields } from '../lib/reports'
 import { fileToCompressed, base64Of } from '../lib/imageUtils'
 import { verifyResolution } from '../lib/api'
 import { CATEGORY_META, SEVERITY_COLOR, STATUS_FLOW, STATUS_LABEL } from '../agent/departments'
@@ -33,10 +33,17 @@ export default function IssueDetail() {
       const after = await fileToCompressed(file)
       const v = await verifyResolution(base64Of(r.photoUrl), after.base64, after.mimeType, r.category)
       setVerify(v)
-      await advanceStatus(id, v.resolved ? 'verified' : 'resolved', {
-        afterPhotoUrl: after.dataUrl,
-        verifyNote: v.note, verifyConfidence: v.confidence,
-      })
+      if (v.resolved) {
+        // AI confirmed the fix → mark Verified Fixed
+        await advanceStatus(id, 'verified', {
+          afterPhotoUrl: after.dataUrl, verifyNote: v.note, verifyConfidence: v.confidence,
+        })
+      } else {
+        // AI rejected the fix → keep status, store the attempt + note (no false "resolved")
+        await updateReportFields(id, {
+          afterPhotoUrl: after.dataUrl, verifyNote: v.note, verifyConfidence: v.confidence,
+        })
+      }
       await reload()
     } catch (e) { setMsg(e.message) } finally { setBusy(false) }
   }

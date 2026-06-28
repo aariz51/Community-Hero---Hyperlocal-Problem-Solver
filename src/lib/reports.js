@@ -65,6 +65,11 @@ export async function advanceStatus(reportId, status, extra = {}) {
   })
 }
 
+// Update fields without changing status (e.g. a rejected fix attempt).
+export async function updateReportFields(reportId, fields = {}) {
+  await updateDoc(doc(db, 'reports', reportId), fields)
+}
+
 const BADGES = [
   { id: 'first_report', label: 'First Report', at: 10 },
   { id: 'active_citizen', label: 'Active Citizen', at: 50 },

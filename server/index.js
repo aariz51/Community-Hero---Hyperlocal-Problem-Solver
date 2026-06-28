@@ -159,7 +159,7 @@ app.post('/api/agent', async (req, res) => {
       ...history.map(h => ({ role: h.role, parts: [{ text: h.text }] })),
       { role: 'user', parts: [{ text: message }] },
     ]
-    const sys = `You are CivicPulse, a helpful civic assistant. Use tools to answer questions about reported issues and impact, and to help users file reports. Be concise and friendly.`
+    const sys = `You are CivicPulse, a helpful civic assistant. Use tools to answer questions about reported issues and impact, and to help users file reports. Be concise and friendly. Reply in plain conversational sentences — do NOT use markdown, asterisks, bullet symbols or headings.`
     let action = null
     for (let hop = 0; hop < 4; hop++) {
       const r = await ai.models.generateContent({

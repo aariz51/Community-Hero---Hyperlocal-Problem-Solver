@@ -55,15 +55,22 @@ export default function MapView() {
       })
       if (filtered.length) mapObj.current.fitBounds(bounds)
 
-      // heatmap (guarded — HeatmapLayer removed in newer Maps versions)
-      if (heat.current) { heat.current.setMap(null); heat.current = null }
-      if (showHeat && google.maps.visualization?.HeatmapLayer) {
-        try {
-          heat.current = new google.maps.visualization.HeatmapLayer({
-            data: filtered.map((r) => new google.maps.LatLng(r.geo.lat, r.geo.lng)),
-            map: mapObj.current, radius: 40,
+      // heatmap — emulated with translucent red circles (Maps HeatmapLayer was
+      // removed in Maps JS v3.65). Overlapping circles make clusters glow hotter.
+      if (heat.current) { heat.current.forEach((c) => c.setMap(null)); heat.current = null }
+      if (showHeat) {
+        const layers = [{ r: 3500, o: 0.12 }, { r: 2000, o: 0.16 }, { r: 1000, o: 0.26 }]
+        const circles = []
+        filtered.forEach((rep) => {
+          if (!rep.geo || typeof rep.geo.lat !== 'number') return
+          layers.forEach(({ r, o }) => {
+            circles.push(new google.maps.Circle({
+              center: { lat: rep.geo.lat, lng: rep.geo.lng }, radius: r, map: mapObj.current,
+              fillColor: '#ff2d00', fillOpacity: o, strokeWeight: 0, clickable: false, zIndex: 1,
+            }))
           })
-        } catch (e) { console.warn('Heatmap unavailable:', e.message) }
+        })
+        heat.current = circles
       }
     })
   }, [ready, reports, cat, status, showHeat])

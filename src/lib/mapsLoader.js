@@ -8,8 +8,8 @@ export function loadMaps() {
   if (!loaderPromise) {
     const loader = new Loader({
       apiKey: MAPS_KEY,
-      version: '3.58', // pinned: HeatmapLayer was removed from Maps JS in v3.65
-      libraries: ['visualization', 'marker'],
+      version: 'weekly',
+      libraries: ['marker'],
     })
     loaderPromise = loader.load()
   }
