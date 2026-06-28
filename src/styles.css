@@ -152,7 +152,7 @@ select option { color: #000; }
 .feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 .feature { min-height: 200px; border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.35s var(--ease), background 0.35s var(--ease); }
 .feature:hover { transform: translateY(-4px); background: rgba(255,255,255,0.04); }
-.fico { font-size: 1.6rem; }
+.fico { font-size: 1.6rem; color: rgba(255,255,255,0.88); display: inline-flex; align-items: center; }
 .feature h3 { font-size: 1.02rem; letter-spacing: -0.015em; }
 .feature p { color: var(--m2); font-size: 0.84rem; line-height: 1.5; margin-top: 10px; }
 
