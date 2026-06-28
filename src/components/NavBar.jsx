@@ -27,7 +27,7 @@ export default function NavBar() {
           {user && link('/me', 'My Reports')}
         </nav>
         <div className="nav-right">
-          <Link to="/report" className="btn btn-primary btn-sm">Report an issue</Link>
+          <Link to="/report" className="btn btn-primary btn-sm">Report</Link>
           {user ? (
             <div className="nav-user">
               {profile?.photoURL

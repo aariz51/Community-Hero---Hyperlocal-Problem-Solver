@@ -294,6 +294,40 @@ select option { color: #000; }
 @media (max-width: 760px) {
   .nav-links { display: none; }
   .timeline-grid, .feature-grid, .stats-grid, .d-stats { grid-template-columns: 1fr; }
-  .hero-h1 { font-size: clamp(3rem, 13vw, 4.5rem); }
+  .hero-h1 { font-size: clamp(2.7rem, 12vw, 4.2rem); }
   .upload-choices { flex-direction: column; }
+  .section { padding: 64px 18px; }
+  .section-head { margin-bottom: 36px; }
+  .page { padding: 32px 18px 80px; }
+  .page h2, .section-head h2 { font-size: clamp(2rem, 9vw, 3rem); }
+  .cta-card h2 { font-size: clamp(2.6rem, 12vw, 4rem); }
+  /* nav compact */
+  .nav { padding: 12px 10px; }
+  .nav-inner { padding: 8px 10px 8px 16px; gap: 8px; }
+  .pts { display: none; }
+  .nav-right { gap: 8px; }
+  /* hero */
+  .hero-body { padding: 96px 18px 44px; }
+  .hero-stat { min-width: 0; flex: 1 1 42%; padding: 14px 16px; }
+  /* forms / detail */
+  .edit-row { flex-direction: column; gap: 12px; }
+  .kv { flex-wrap: wrap; gap: 4px; }
+  .kv b { min-width: 100%; }
+  .map-canvas { height: 440px; }
+  .map-toolbar { align-items: flex-start; }
+  /* list rows: wrap so nothing clips */
+  .q-row { flex-wrap: wrap; gap: 4px 10px; padding: 12px 4px; }
+  .q-cat { order: 1; min-width: 0; flex: 1 1 auto; }
+  .sev { order: 2; min-width: 0; }
+  .q-status { order: 3; margin-left: auto; }
+  .risk-flag { order: 4; }
+  .q-addr { order: 5; flex: 1 1 100%; font-size: 0.78rem; color: var(--m3); }
+  .bar-label { min-width: 104px; font-size: 0.78rem; }
+}
+@media (max-width: 420px) {
+  .hero-stat { flex: 1 1 100%; }
+  .badge { font-size: 0.74rem; padding: 8px 12px; }
+  .bar-label { min-width: 92px; }
+  .profile-head { gap: 12px; }
+  .avatar.lg { width: 52px; height: 52px; }
 }
