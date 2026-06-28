@@ -14,7 +14,7 @@ const STEPS = [
   ['06', 'Progress is tracked', 'Status stays public from assignment to repair and verified closure.'],
 ]
 const FEATURES = [
-  ['camera', 'Image & video reporting', 'Evidence-first submissions for road damage, leaks, waste, and lighting faults.'],
+  ['camera', 'Image-based reporting', 'Evidence-first photo submissions for road damage, leaks, waste, and lighting faults.'],
   ['ai', 'AI categorization', 'Issue type, urgency, duplicate risk, severity, and department fit — automatic.'],
   ['pin', 'Geo-location mapping', 'Reports cluster by street, ward, and recurring infrastructure corridor.'],
   ['users', 'Community trust scoring', 'Validations and confirmations raise confidence without silencing residents.'],
