@@ -57,10 +57,11 @@ app.post('/api/draft', async (req, res) => {
     const { report } = req.body
     const r = await ai.models.generateContent({
       model: MODEL,
-      contents: `Write a concise, formal municipal complaint letter (max 160 words) a citizen can send to the "${report.department}".
-Issue: ${report.category} (${report.severity} severity) at ${report.address}.
+      contents: `Write a concise, formal municipal complaint letter (max 170 words) that a resident named "${report.reporterName || 'a concerned citizen'}" can send to the "${report.department}".
+Issue: ${report.category} (${report.severity} severity)${report.address ? ' at ' + report.address : ''}.
 Details: ${report.description}.
-Tone: respectful, firm, references civic responsibility and requested resolution within ${report.sla} days. Output only the letter body.`,
+Tone: respectful, firm, references civic responsibility and requests resolution within ${report.sla} days.
+End with a sign-off using the resident's NAME "${report.reporterName || 'A concerned citizen'}" (their name, NOT an email address). Output only the letter body.`,
     })
     res.json({ letter: r.text.trim() })
   } catch (e) { res.status(500).json({ error: String(e?.message || e) }) }
@@ -118,6 +119,38 @@ app.post('/api/verify', async (req, res) => {
       },
     })
     res.json(JSON.parse(r.text))
+  } catch (e) { res.status(500).json({ error: String(e?.message || e) }) }
+})
+
+/* ---------------- Reverse geocoding (worded address) ---------------- */
+// Tries Google Geocoding (if a server-side GEOCODE_KEY is set) then falls back to
+// OpenStreetMap so a worded address always works regardless of Cloud Console toggles.
+function shortLabel(parts) {
+  return [...new Set(parts.filter(Boolean))].slice(0, 3).join(', ')
+}
+app.get('/api/geocode', async (req, res) => {
+  const { lat, lng } = req.query
+  try {
+    const key = process.env.GEOCODE_KEY || process.env.MAPS_SERVER_KEY
+    if (key) {
+      const gr = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${key}`)
+      const gd = await gr.json()
+      if (gd.status === 'OK' && gd.results?.length) {
+        const r0 = gd.results.find((r) => r.types?.includes('route')) || gd.results[0]
+        return res.json({ address: r0.formatted_address })
+      }
+    }
+    const nr = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`,
+      { headers: { 'User-Agent': 'CivicPulse/1.0 (civic issue reporting app)' } })
+    const nd = await nr.json()
+    const a = nd.address || {}
+    const label = shortLabel([
+      a.road || a.pedestrian || a.footway || a.neighbourhood,
+      a.suburb || a.city_district || a.county,
+      a.city || a.town || a.village || a.state_district,
+      a.state,
+    ]) || nd.display_name || ''
+    res.json({ address: label })
   } catch (e) { res.status(500).json({ error: String(e?.message || e) }) }
 })
 

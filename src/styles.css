@@ -207,6 +207,15 @@ select option { color: #000; }
 .agent-step.done { color: #fff; } .agent-step.done .dot { background: #6ee7a0; }
 .agent-step.fail .dot { background: #f0a35e; }
 .agent-step .st { margin-left: auto; font-weight: 700; }
+.ag-ico { color: rgba(255,255,255,0.62); display: inline-flex; align-items: center; }
+.agent-step.run .ag-ico { color: #fff; }
+.agent-step.done .ag-ico { color: #6ee7a0; }
+.agent-step.fail .ag-ico { color: #f0a35e; }
+.ag-label { flex: 1; }
+.loc-note { color: var(--m2); font-size: 0.82rem; margin-top: 12px; border-left: 2px solid rgba(255,255,255,0.22); padding-left: 12px; line-height: 1.5; max-width: 640px; }
+.loc-note b { color: #fff; }
+.addr-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.14); border-radius: 8px; padding: 7px 11px; color: #fff; font-size: 0.85rem; }
+.addr-input::placeholder { color: var(--m3); }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
 .result-card { margin-top: 22px; border-radius: var(--radius); padding: 24px; }

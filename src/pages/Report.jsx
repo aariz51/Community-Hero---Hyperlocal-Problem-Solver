@@ -10,13 +10,29 @@ import { routeToDepartment, CATEGORIES, CATEGORY_META, SEVERITY_COLOR } from '..
 import { createReport, findNearbyDuplicate, upvoteReport } from '../lib/reports'
 
 const STEPS = [
-  ['perceive', '🧠 Perceiving image (Gemini Vision)'],
-  ['locate', '📍 Locating & reverse-geocoding'],
-  ['dedupe', '🔁 Checking for duplicates nearby'],
-  ['route', '🏛️ Routing to department'],
-  ['draft', '✍️ Drafting official complaint'],
-  ['predict', '🔮 Predicting escalation risk'],
+  ['perceive', 'eye', 'Perceiving image (Gemini Vision)'],
+  ['locate', 'pin', 'Locating & reverse-geocoding'],
+  ['dedupe', 'layers', 'Checking for duplicates nearby'],
+  ['route', 'building', 'Routing to department'],
+  ['draft', 'file', 'Drafting official complaint'],
+  ['predict', 'trend', 'Predicting escalation risk'],
 ]
+
+const STEP_ICONS = {
+  eye: <><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" /><circle cx="12" cy="12" r="3" /></>,
+  pin: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="3" /></>,
+  layers: <><path d="m12 2 9 5-9 5-9-5 9-5Z" /><path d="m3 12 9 5 9-5" /><path d="m3 17 9 5 9-5" /></>,
+  building: <><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /><path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M9 15h.01M15 15h.01M2 22h20" /></>,
+  file: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" /><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" /></>,
+  trend: <><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /><polyline points="16 7 22 7 22 13" /></>,
+}
+function StepIcon({ name }) {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      {STEP_ICONS[name]}
+    </svg>
+  )
+}
 
 export default function Report() {
   const { user, login } = useAuth()
@@ -25,14 +41,15 @@ export default function Report() {
   const cameraRef = useRef()
   const uploadRef = useRef()
   const [preview, setPreview] = useState(null)
-  const [img, setImg] = useState(null) // {dataUrl, base64, mimeType}
+  const [img, setImg] = useState(null)
   const [running, setRunning] = useState(false)
   const [stepState, setStepState] = useState({})
-  const [result, setResult] = useState(null) // assembled agent output
+  const [result, setResult] = useState(null)
   const [duplicate, setDuplicate] = useState(null)
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
+  const reporterName = user?.displayName || (user?.email ? user.email.split('@')[0] : 'A concerned citizen')
   const mark = (k, v) => setStepState((s) => ({ ...s, [k]: v }))
 
   async function onPick(e) {
@@ -48,7 +65,6 @@ export default function Report() {
     if (!img) return
     setRunning(true); setError(''); setDuplicate(null)
     try {
-      // 1. Perceive
       mark('perceive', 'run')
       const cls = await classifyIssue(img.base64, img.mimeType)
       if (!cls.isCivicIssue || !cls.isGenuine) {
@@ -58,19 +74,22 @@ export default function Report() {
       }
       mark('perceive', 'done')
 
-      // 2. Locate
+      // 2. Locate — request GPS, then reverse-geocode to a worded address
       mark('locate', 'run')
       let geo, address
-      try { geo = await getCurrentPosition(); address = await reverseGeocode(geo) }
-      catch { geo = { lat: 28.6139, lng: 77.209 }; address = 'Location unavailable (approx.)' }
+      try {
+        geo = await getCurrentPosition()
+        address = await reverseGeocode(geo)   // human-readable street / area / city
+      } catch {
+        geo = { lat: 28.6139, lng: 77.209 }
+        address = ''  // editable below — user can type the exact place
+      }
       mark('locate', 'done')
 
-      // 3. Dedupe
       mark('dedupe', 'run')
       const dup = findNearbyDuplicate(reports, geo, cls.category)
       mark('dedupe', 'done')
 
-      // 4. Route
       mark('route', 'run')
       const routing = routeToDepartment(cls.category)
       mark('route', 'done')
@@ -79,15 +98,14 @@ export default function Report() {
         category: cls.category, severity: cls.severity, description: cls.description,
         confidence: cls.confidence, address, geo,
         department: routing.department, sla: routing.slaDays,
+        reporterName,
       }
 
-      // 5. Draft complaint
       mark('draft', 'run')
       let complaintLetter = ''
       try { complaintLetter = (await draftComplaint(base)).letter } catch {}
       mark('draft', complaintLetter ? 'done' : 'fail')
 
-      // 6. Predict escalation
       mark('predict', 'run')
       let prediction = null
       try { prediction = await predictEscalation(base) } catch {}
@@ -108,13 +126,13 @@ export default function Report() {
     try {
       const id = await createReport({
         userId: user.uid,
-        userName: user.displayName || 'Citizen',
+        userName: reporterName,
         photoUrl: img.dataUrl,
         category: result.category,
         severity: result.severity,
         description: result.description,
         confidence: result.confidence,
-        address: result.address,
+        address: result.address || 'Location not specified',
         geo: result.geo,
         department: result.department,
         sla: result.sla,
@@ -144,6 +162,7 @@ export default function Report() {
     <div className="page narrow">
       <h2>Report a civic issue</h2>
       <p className="muted">Snap a photo — the CivicPulse agent does the rest.</p>
+      <p className="loc-note">📍 CivicPulse will ask to use your location <b>only</b> to pin this issue on the public map and route it to the right local department. You can also type the address.</p>
 
       <div className="report-grid">
         <div>
@@ -172,9 +191,11 @@ export default function Report() {
 
           {(running || Object.keys(stepState).length > 0) && (
             <div className="agent-steps">
-              {STEPS.map(([k, label]) => (
+              {STEPS.map(([k, ico, label]) => (
                 <div key={k} className={`agent-step ${stepState[k] || ''}`}>
-                  <span className="dot" />{label}
+                  <span className="dot" />
+                  <span className="ag-ico"><StepIcon name={ico} /></span>
+                  <span className="ag-label">{label}</span>
                   <span className="st">{stepState[k] === 'done' ? '✓' : stepState[k] === 'fail' ? '⚠' : stepState[k] === 'run' ? '…' : ''}</span>
                 </div>
               ))}
@@ -203,14 +224,17 @@ export default function Report() {
             <span className="muted">{Math.round((result.confidence || 0) * 100)}% confidence</span>
           </div>
           <p className="desc">{result.description}</p>
-          <div className="kv"><b>📍 Location</b><span>{result.address}</span></div>
+          <div className="kv"><b>📍 Location</b>
+            <input className="addr-input" value={result.address} placeholder="Street / area (allow location or type it)"
+              onChange={(e) => setResult({ ...result, address: e.target.value })} />
+          </div>
           <div className="kv"><b>🏛️ Routed to</b><span>{result.department} · SLA {result.sla}d</span></div>
           {result.prediction && (
             <div className="kv"><b>🔮 Escalation risk</b>
               <span>{result.prediction.riskScore}/100 — {result.prediction.reason}</span></div>
           )}
           {result.complaintLetter && (
-            <details className="letter"><summary>✍️ AI-drafted official complaint</summary>
+            <details className="letter"><summary>✍️ AI-drafted official complaint (signed as {reporterName})</summary>
               <pre>{result.complaintLetter}</pre></details>
           )}
 

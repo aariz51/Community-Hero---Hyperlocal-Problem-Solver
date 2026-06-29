@@ -18,6 +18,11 @@ const DARK_STYLE = [
   { featureType: 'landscape', elementType: 'geometry', stylers: [{ color: '#0d0d0d' }] },
 ]
 
+// meters represented by one screen pixel at a given latitude + zoom
+function metersPerPixel(lat, zoom) {
+  return (156543.03392 * Math.cos((lat * Math.PI) / 180)) / Math.pow(2, zoom)
+}
+
 export default function MapView() {
   const { reports } = useReports()
   const nav = useNavigate()
@@ -29,6 +34,7 @@ export default function MapView() {
   const [showHeat, setShowHeat] = useState(false)
   const [cat, setCat] = useState('all')
   const [status, setStatus] = useState('all')
+  const [mapTick, setMapTick] = useState(0)
   const [err, setErr] = useState('')
 
   useEffect(() => {
@@ -39,6 +45,8 @@ export default function MapView() {
         center: { lat: 28.6139, lng: 77.209 }, zoom: 11, mapTypeControl: false, streetViewControl: false,
         fullscreenControl: false, styles: DARK_STYLE, backgroundColor: '#0d0d0d',
       })
+      // re-render the heatmap whenever the view settles (zoom/pan) so blooms stay pixel-stable
+      mapObj.current.addListener('idle', () => setMapTick((t) => t + 1))
       setReady(true)
     }).catch((e) => setErr('Map failed to load. Check the Maps API key/billing. ' + e.message))
     return () => { cancelled = true }
@@ -47,6 +55,7 @@ export default function MapView() {
   const filtered = reports.filter((r) =>
     (cat === 'all' || r.category === cat) && (status === 'all' || r.status === status) && r.geo)
 
+  // markers (do NOT rebuild on pan/zoom)
   useEffect(() => {
     if (!ready || !mapObj.current) return
     loadMaps().then((google) => {
@@ -67,27 +76,49 @@ export default function MapView() {
         markers.current.push(marker)
         bounds.extend(r.geo)
       })
-      if (filtered.length) mapObj.current.fitBounds(bounds)
-
-      // heatmap — emulated with translucent red circles (Maps HeatmapLayer was
-      // removed in Maps JS v3.65). Overlapping circles make clusters glow hotter.
-      if (heat.current) { heat.current.forEach((c) => c.setMap(null)); heat.current = null }
-      if (showHeat) {
-        const layers = [{ r: 3500, o: 0.12 }, { r: 2000, o: 0.16 }, { r: 1000, o: 0.26 }]
-        const circles = []
-        filtered.forEach((rep) => {
-          if (!rep.geo || typeof rep.geo.lat !== 'number') return
-          layers.forEach(({ r, o }) => {
-            circles.push(new google.maps.Circle({
-              center: { lat: rep.geo.lat, lng: rep.geo.lng }, radius: r, map: mapObj.current,
-              fillColor: '#ff2d00', fillOpacity: o, strokeWeight: 0, clickable: false, zIndex: 1,
-            }))
-          })
+      if (filtered.length) {
+        mapObj.current.fitBounds(bounds, 60)
+        google.maps.event.addListenerOnce(mapObj.current, 'idle', () => {
+          if (mapObj.current.getZoom() > 14) mapObj.current.setZoom(14)
         })
-        heat.current = circles
       }
     })
-  }, [ready, reports, cat, status, showHeat])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, reports, cat, status])
+
+  // heatmap — pixel-stable warm bloom, rebuilt on zoom/pan (mapTick)
+  useEffect(() => {
+    if (!ready || !mapObj.current) return
+    loadMaps().then((google) => {
+      if (heat.current) { heat.current.forEach((c) => c.setMap(null)); heat.current = null }
+      if (!showHeat) return
+      const zoom = mapObj.current.getZoom() || 11
+      const center = mapObj.current.getCenter()
+      const lat = center ? center.lat() : 28.6
+      const mpp = metersPerPixel(lat, zoom)
+      const rings = [
+        { p: 95, o: 0.05, c: '#ff3b00' },
+        { p: 76, o: 0.06, c: '#ff5a00' },
+        { p: 60, o: 0.07, c: '#ff7a00' },
+        { p: 46, o: 0.09, c: '#ff9e00' },
+        { p: 33, o: 0.12, c: '#ffc400' },
+        { p: 21, o: 0.15, c: '#ffe000' },
+        { p: 11, o: 0.20, c: '#fff59d' },
+      ]
+      const circles = []
+      filtered.forEach((rep) => {
+        if (!rep.geo || typeof rep.geo.lat !== 'number') return
+        rings.forEach(({ p, o, c }) => {
+          circles.push(new google.maps.Circle({
+            center: { lat: rep.geo.lat, lng: rep.geo.lng }, radius: p * mpp, map: mapObj.current,
+            fillColor: c, fillOpacity: o, strokeWeight: 0, clickable: false, zIndex: 1,
+          }))
+        })
+      })
+      heat.current = circles
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, reports, cat, status, showHeat, mapTick])
 
   return (
     <div className="page wide">

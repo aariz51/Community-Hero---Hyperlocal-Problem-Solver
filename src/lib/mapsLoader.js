@@ -16,13 +16,16 @@ export function loadMaps() {
   return loaderPromise
 }
 
+// Reverse-geocode via our own server (/api/geocode). Done server-side so it
+// doesn't depend on the browser Maps key being allowed to use the JS Geocoder.
 export async function reverseGeocode({ lat, lng }) {
+  const fallback = `${lat.toFixed(4)}, ${lng.toFixed(4)}`
   try {
-    const google = await loadMaps()
-    const geocoder = new google.maps.Geocoder()
-    const { results } = await geocoder.geocode({ location: { lat, lng } })
-    return results?.[0]?.formatted_address || `${lat.toFixed(4)}, ${lng.toFixed(4)}`
+    const r = await fetch(`/api/geocode?lat=${lat}&lng=${lng}`)
+    if (!r.ok) return fallback
+    const { address } = await r.json()
+    return address || fallback
   } catch {
-    return `${lat.toFixed(4)}, ${lng.toFixed(4)}`
+    return fallback
   }
 }
