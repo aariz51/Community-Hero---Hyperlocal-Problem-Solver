@@ -9,6 +9,12 @@ Built for the **Vibe2Ship Hackathon** (CodingNinjas × Google for Developers) �
 - **Demo video:** https://youtu.be/4MNCGwz2ZZg
 - **Team:** Aariz Rasheed
 
+### Judge access
+- **Email ID:** `judge@civicpulse.app`
+- **Password:** `CivicPulse@2026`
+
+Judges can also create a new email/password ID from the app if they want a fresh account.
+
 ---
 
 ## The 6-agent Civic Agent
@@ -35,8 +41,9 @@ When a citizen submits a photo, this pipeline runs live on screen — each step 
 - 🗺 **Live issue map** — colored pins by category + hotspot heatmap, filterable by category/status
 - 🏛 **Authority dashboard** — track issues through Reported → Acknowledged → In Progress → Resolved → Verified Fixed
 - ✅ **Community fix-verification** — AI before/after photo comparison
+- 🧾 **Visible agent audit trail** — every server-side run, step, action, and fix evidence is attached to the issue page
 - 🏆 **Gamification** — civic points for reporting and verifying
-- 🔐 **Google Sign-In** — complaints signed with the user's real name
+- 🔐 **Firebase Auth** — email/password demo access, account creation, and Google Sign-In
 
 ---
 
@@ -45,18 +52,20 @@ When a citizen submits a photo, this pipeline runs live on screen — each step 
 - **Frontend:** React + Vite + React Router (single-page app)
 - **AI:** Google **Gemini 2.5 Flash** (Vision, structured JSON, function calling)
 - **Maps:** Google Maps Platform (Maps JS API, reverse geocoding, custom heatmap)
-- **Backend:** Express on **Google Cloud Run** (Cloud Functions v2) — a secure Gemini proxy that keeps the API key server-side
-- **Data & Auth:** **Firebase** — Authentication (Google), Cloud Firestore (realtime), Hosting
+- **Backend:** Express on **Google Cloud Run** (Cloud Functions v2) + Cloud Scheduler SLA monitor — a secure Gemini proxy that keeps the API key server-side
+- **Data & Auth:** **Firebase** — Authentication (email/password + Google), Cloud Firestore (realtime), Storage rules, Hosting
 
 ### Architecture
 
-A React SPA on **Firebase Hosting** calls a **Cloud Run** Express service (`/api/*`) that holds the Gemini key server-side — it's never exposed to the browser. Reports persist in **Cloud Firestore** in realtime, so the map and dashboard update instantly. Google Maps renders the live map and reverse-geocoding; Firebase Auth supplies the citizen's name for complaint letters.
+A React SPA on **Firebase Hosting** calls a **Cloud Run** Express service (`/api/*`) that holds the Gemini key server-side — it's never exposed to the browser. Reports persist in **Cloud Firestore** in realtime, so the map and dashboard update instantly. Google Maps renders the live map and reverse-geocoding; Firebase Auth supports email/password accounts plus Google Sign-In and supplies the citizen's name for complaint letters.
+
+![CivicPulse architecture](docs/civicpulse-architecture.png)
 
 ```
 React SPA (Firebase Hosting)
    │  /api/*  →  Cloud Run (Express)  →  Gemini 2.5 Flash
    │                                  →  /api/geocode (reverse geocoding)
-   └─ Firestore (realtime reports) · Firebase Auth (Google) · Google Maps JS
+   └─ Firestore (realtime reports) · Firebase Auth (email/password + Google) · Google Maps JS
 ```
 
 ---
@@ -68,6 +77,7 @@ npm install
 
 # Fill in your own keys (Firebase web config, Maps key, and GEMINI_API_KEY)
 cp .env.example .env
+cp functions/.env.example functions/.env
 
 # Run the API proxy and the app in two terminals
 npm run dev:api   # Express Gemini proxy on http://localhost:8787
@@ -77,15 +87,51 @@ npm run dev:web   # Vite app on http://localhost:5173
 Required env vars (see [.env.example](.env.example)):
 `VITE_FB_API_KEY`, `VITE_FB_AUTH_DOMAIN`, `VITE_FB_PROJECT_ID`, `VITE_FB_STORAGE_BUCKET`, `VITE_FB_SENDER_ID`, `VITE_FB_APP_ID`, `VITE_MAPS_KEY`, and `GEMINI_API_KEY`.
 
+Optional server env vars:
+`GEOCODE_KEY` or `MAPS_SERVER_KEY` for server-side reverse geocoding, and `SLA_MONITOR_KEY` to protect manual calls to `/api/sla-monitor`.
+
+For Firebase deploys, set server-side keys in `functions/.env` from [functions/.env.example](functions/.env.example) or through your Firebase/Google Cloud secret workflow.
+
 > 🔒 No secrets are committed — all `.env` files are git-ignored and the Gemini key is only ever used server-side.
+
+## Agent audit collections
+
+The server-side orchestrator records every meaningful AI decision in Firestore:
+
+- `agent_runs` — one document per report triage, fix verification, or SLA monitor run.
+- `agent_steps` — step-level status, latency, model output, and fallback/error metadata.
+- `agent_actions` — route, duplicate, escalation, verification, and complaint-draft actions.
+- `agent_memory` — state used for self-correcting SLA escalation and category routing memory.
+- `verification_evidence` — before/after fix-verification evidence and model confidence.
+
+Each linked report exposes this audit trail on the issue detail page so judges can inspect the server-side reasoning without opening Firebase Console. See [Agent Architecture](docs/AGENT_ARCHITECTURE.md) for the full workflow and [MTDB](docs/MTDB.md) for the Firestore/Storage data blueprint.
 
 ## Deploy
 
 ```bash
 npm run build
-firebase deploy --only functions   # Cloud Run (Gemini proxy + /api/geocode)
-firebase deploy --only hosting      # Firebase Hosting (SPA)
+firebase deploy --only functions,hosting,firestore:rules,storage
 ```
+
+## Verification
+
+```bash
+npm run test:all
+```
+
+Or run individual checks:
+
+```bash
+npm run test:agent
+npm run test:rules
+npm run test:e2e
+```
+
+The agent test runs the orchestrator against an in-memory Firestore-shaped store to prove run logging, actions, fix evidence, and SLA self-correction without requiring local Firebase Admin credentials. The E2E suite checks the public app shell, map, dashboard, and email/password auth entry locally.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
 
 ---
 

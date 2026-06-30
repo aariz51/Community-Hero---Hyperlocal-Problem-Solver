@@ -8,7 +8,11 @@
     "dev:api": "node --env-file=.env server/index.js",
     "build": "vite build",
     "start": "node server/index.js",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:agent": "node --test tests/agent/*.test.mjs",
+    "test:rules": "node --test tests/rules/*.test.mjs",
+    "test:e2e": "playwright test",
+    "test:all": "npm run test:agent && npm run test:rules && npm run build && npm run test:e2e"
   },
   "dependencies": {
     "@google/genai": "^2.10.0",
@@ -16,11 +20,13 @@
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "firebase": "^12.15.0",
+    "firebase-admin": "^13.10.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.18.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@vitejs/plugin-react": "^4.3.1",
     "vite": "^5.4.0"
   }

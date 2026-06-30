@@ -9,7 +9,12 @@ export default function Dashboard() {
   const { reports } = useReports()
   const { user } = useAuth()
   const [seeding, setSeeding] = useState(false)
-  async function seed() { if (!user) return; setSeeding(true); try { await seedDemoData(user) } finally { setSeeding(false) } }
+  async function seed() {
+    setSeeding(true)
+    try {
+      await seedDemoData(user)
+    } finally { setSeeding(false) }
+  }
   const total = reports.length
   const open = reports.filter((r) => !['resolved', 'verified'].includes(r.status))
   const resolved = reports.filter((r) => ['resolved', 'verified'].includes(r.status))
@@ -54,7 +59,7 @@ export default function Dashboard() {
         </div>
         {user && reports.length < 3 && (
           <button className="btn btn-ghost btn-sm" disabled={seeding} onClick={seed}>
-            {seeding ? 'Seeding…' : '🌱 Seed demo data'}
+            {seeding ? 'Seeding...' : 'Seed sample data'}
           </button>
         )}
       </div>

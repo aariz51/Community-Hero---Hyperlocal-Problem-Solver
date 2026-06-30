@@ -13,6 +13,10 @@ async function post(path, body) {
 export const classifyIssue = (image, mimeType) => post('/api/classify', { image, mimeType })
 export const draftComplaint = (report) => post('/api/draft', { report })
 export const predictEscalation = (report) => post('/api/predict', { report })
+export const runReportAgent = (payload) => post('/api/report-agent', payload)
+export const attachAgentRunToReport = (runId, reportId, userId) =>
+  post('/api/agent/attach-report', { runId, reportId, userId })
 export const verifyResolution = (before, after, mimeType, category) =>
   post('/api/verify', { before, after, mimeType, category })
+export const verifyResolutionEvidence = (payload) => post('/api/verify', payload)
 export const askAgent = (message, reports, history) => post('/api/agent', { message, reports, history })

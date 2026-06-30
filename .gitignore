@@ -8,3 +8,9 @@ dist
 functions/.env
 .firebase
 .playwright-mcp
+.judging
+test-results
+playwright-report
+docs/hackathon_*
+GOOGLE_DOC_IMPROVED.*
+GOOGLE_DOC_REVIEW.md

@@ -1,16 +1,16 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import AuthPanel from '../components/AuthPanel'
 import { useReports } from '../hooks/useReports'
 import { BADGES } from '../lib/reports'
 import { CATEGORY_META, STATUS_LABEL, SEVERITY_COLOR } from '../agent/departments'
 
 export default function MyReports() {
-  const { user, profile, login } = useAuth()
+  const { user, profile } = useAuth()
   const { reports } = useReports()
   if (!user) return (
     <div className="page narrow center">
-      <h2>My reports</h2>
-      <button className="btn btn-primary" onClick={login}>Sign in with Google</button>
+      <AuthPanel title="My reports" subtitle="Sign in with email/password or Google to view your reports." />
     </div>
   )
   const mine = reports.filter((r) => r.userId === user.uid)

@@ -5,6 +5,12 @@ import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { GoogleGenAI, Type } from '@google/genai'
+import {
+  attachReportToRun,
+  runReportOrchestrator,
+  runSlaMonitor,
+  verifyResolutionWithEvidence,
+} from '../functions/agentCore.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -95,30 +101,7 @@ Assess the risk that this WORSENS or causes harm if not fixed soon (consider mon
 /* ---------------- Tool 4: verifyResolution (before/after Vision) ---------------- */
 app.post('/api/verify', async (req, res) => {
   try {
-    const { before, after, mimeType, category } = req.body
-    const r = await ai.models.generateContent({
-      model: MODEL,
-      contents: [
-        { role: 'user', parts: [
-          { text: `BEFORE photo of a reported "${category}" issue:` }, img(before, mimeType),
-          { text: `AFTER photo claiming it is now fixed:` }, img(after, mimeType),
-          { text: `Compare them. Has the ${category} issue genuinely been resolved in the AFTER photo? Be skeptical of mismatched locations or staged photos.` },
-        ]},
-      ],
-      config: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            resolved: { type: Type.BOOLEAN },
-            confidence: { type: Type.NUMBER },
-            note: { type: Type.STRING },
-          },
-          required: ['resolved','confidence','note'],
-        },
-      },
-    })
-    res.json(JSON.parse(r.text))
+    res.json(await verifyResolutionWithEvidence(ai, req.body))
   } catch (e) { res.status(500).json({ error: String(e?.message || e) }) }
 })
 
@@ -151,6 +134,28 @@ app.get('/api/geocode', async (req, res) => {
       a.state,
     ]) || nd.display_name || ''
     res.json({ address: label })
+  } catch (e) { res.status(500).json({ error: String(e?.message || e) }) }
+})
+
+app.post('/api/report-agent', async (req, res) => {
+  try {
+    res.json(await runReportOrchestrator(ai, req.body))
+  } catch (e) { res.status(500).json({ error: String(e?.message || e) }) }
+})
+
+app.post('/api/agent/attach-report', async (req, res) => {
+  try {
+    const { runId, reportId, userId } = req.body
+    res.json(await attachReportToRun(runId, reportId, userId))
+  } catch (e) { res.status(500).json({ error: String(e?.message || e) }) }
+})
+
+app.post('/api/sla-monitor', async (req, res) => {
+  try {
+    if (process.env.SLA_MONITOR_KEY && req.get('x-civicpulse-scheduler-key') !== process.env.SLA_MONITOR_KEY) {
+      return res.status(403).json({ error: 'Forbidden' })
+    }
+    res.json(await runSlaMonitor({ limit: Number(req.body?.limit || 40) }))
   } catch (e) { res.status(500).json({ error: String(e?.message || e) }) }
 })
 

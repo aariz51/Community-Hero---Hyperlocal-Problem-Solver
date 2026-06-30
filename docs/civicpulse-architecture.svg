@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1120" viewBox="0 0 1800 1120" role="img" aria-labelledby="title desc">
+  <title id="title">CivicPulse System Architecture</title>
+  <desc id="desc">Architecture diagram for CivicPulse showing React, Firebase Hosting, Functions v2 on Cloud Run, Cloud Scheduler, Gemini, Google Maps, Firestore audit collections, Firebase Storage, and verified closure.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f9fc; }
+      .panel { fill: #ffffff; stroke: #d7deea; stroke-width: 2; rx: 28; }
+      .panel-blue { fill: #eef5ff; stroke: #8ab4f8; stroke-width: 2; rx: 28; }
+      .box { fill: #ffffff; stroke: #c8d1e0; stroke-width: 2; rx: 18; }
+      .box-dark { fill: #1f2937; stroke: #111827; stroke-width: 2; rx: 18; }
+      .box-blue { fill: #e8f0fe; stroke: #4285f4; stroke-width: 2; rx: 18; }
+      .box-green { fill: #e6f4ea; stroke: #34a853; stroke-width: 2; rx: 18; }
+      .box-yellow { fill: #fef7e0; stroke: #fbbc04; stroke-width: 2; rx: 18; }
+      .box-red { fill: #fce8e6; stroke: #ea4335; stroke-width: 2; rx: 18; }
+      .box-purple { fill: #f3e8ff; stroke: #9334e6; stroke-width: 2; rx: 18; }
+      .box-gray { fill: #f3f4f6; stroke: #9ca3af; stroke-width: 2; rx: 18; }
+      .title { font-family: Arial, Helvetica, sans-serif; font-size: 44px; font-weight: 800; fill: #111827; }
+      .subtitle { font-family: Arial, Helvetica, sans-serif; font-size: 22px; fill: #4b5563; }
+      .h1 { font-family: Arial, Helvetica, sans-serif; font-size: 25px; font-weight: 800; fill: #111827; }
+      .h2 { font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: 800; fill: #111827; }
+      .body { font-family: Arial, Helvetica, sans-serif; font-size: 17px; fill: #374151; }
+      .small { font-family: Arial, Helvetica, sans-serif; font-size: 14px; fill: #4b5563; }
+      .small-white { font-family: Arial, Helvetica, sans-serif; font-size: 15px; fill: #e5e7eb; }
+      .label { font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 700; fill: #6b7280; letter-spacing: 1.2px; }
+      .num { font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 800; fill: #ffffff; }
+      .arrow { stroke: #5f6f89; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .arrow-blue { stroke: #4285f4; stroke-width: 3; fill: none; marker-end: url(#arrowBlue); }
+      .arrow-green { stroke: #34a853; stroke-width: 3; fill: none; marker-end: url(#arrowGreen); }
+      .arrow-red { stroke: #ea4335; stroke-width: 3; fill: none; marker-end: url(#arrowRed); }
+      .arrow-dash { stroke: #7c8798; stroke-width: 3; fill: none; stroke-dasharray: 8 8; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#5f6f89"/></marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#4285f4"/></marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#34a853"/></marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#ea4335"/></marker>
+  </defs>
+
+  <rect class="bg" width="1800" height="1120"/>
+  <text x="70" y="78" class="title">CivicPulse Architecture</text>
+  <text x="70" y="116" class="subtitle">Photo-first civic reporting with a server-side Gemini agent, Firebase realtime data, audit memory, SLA automation, and verified closure.</text>
+
+  <rect x="60" y="150" width="1680" height="645" class="panel"/>
+  <text x="90" y="195" class="label">RUNTIME ARCHITECTURE</text>
+
+  <rect x="95" y="235" width="250" height="145" class="box"/>
+  <text x="128" y="280" class="h1">Users</text>
+  <text x="128" y="316" class="body">Citizens</text>
+  <text x="128" y="344" class="body">Authorities</text>
+  <text x="128" y="372" class="body">Community verifiers</text>
+
+  <rect x="420" y="205" width="345" height="250" class="box-blue"/>
+  <text x="450" y="248" class="h1">React + Vite SPA</text>
+  <text x="450" y="282" class="body">Routes: /report, /map,</text>
+  <text x="450" y="308" class="body">/dashboard, /issue/:id,</text>
+  <text x="450" y="334" class="body">/ask, /me</text>
+  <text x="450" y="374" class="small">Client image compression</text>
+  <text x="450" y="398" class="small">Live agent step UI</text>
+  <text x="450" y="422" class="small">Issue-page audit trail</text>
+
+  <rect x="850" y="205" width="330" height="138" class="box-green"/>
+  <text x="880" y="248" class="h1">Firebase Hosting</text>
+  <text x="880" y="282" class="body">Serves dist build</text>
+  <text x="880" y="312" class="body">Rewrites /api/** to function</text>
+
+  <rect x="850" y="390" width="380" height="295" class="box-yellow"/>
+  <text x="880" y="432" class="h1">Firebase Functions v2</text>
+  <text x="880" y="462" class="body">Express API on Cloud Run</text>
+  <text x="880" y="493" class="small">/api/report-agent - orchestrator</text>
+  <text x="880" y="516" class="small">/api/agent/attach-report - link run</text>
+  <text x="880" y="539" class="small">/api/verify - before/after evidence</text>
+  <text x="880" y="562" class="small">/api/report-agent + /api/verify</text>
+  <text x="880" y="585" class="small">/api/sla-monitor - protected trigger</text>
+  <text x="880" y="608" class="small">/api/classify, /draft, /predict</text>
+  <text x="880" y="631" class="small">/api/geocode, /api/agent</text>
+  <text x="880" y="658" class="small">Cloud Scheduler export: slaMonitor</text>
+
+  <rect x="1320" y="205" width="350" height="170" class="box-purple"/>
+  <text x="1350" y="248" class="h1">Gemini 2.5 Flash</text>
+  <text x="1350" y="282" class="body">Vision classification</text>
+  <text x="1350" y="312" class="body">Complaint drafting</text>
+  <text x="1350" y="342" class="body">Risk + fix verification</text>
+
+  <rect x="1320" y="425" width="350" height="150" class="box-blue"/>
+  <text x="1350" y="468" class="h1">Google Maps Platform</text>
+  <text x="1350" y="502" class="body">Maps JavaScript API</text>
+  <text x="1350" y="532" class="body">Server-side geocoding</text>
+  <text x="1350" y="562" class="body">Markers + heatmap overlay</text>
+
+  <rect x="95" y="505" width="285" height="215" class="box-green"/>
+  <text x="128" y="548" class="h1">Cloud Firestore</text>
+  <text x="128" y="582" class="body">reports, users</text>
+  <text x="128" y="612" class="body">agent_runs, agent_steps</text>
+  <text x="128" y="642" class="body">agent_actions, agent_memory</text>
+  <text x="128" y="672" class="body">verification_evidence</text>
+  <text x="128" y="702" class="small">Server writes audit collections</text>
+
+  <rect x="420" y="520" width="345" height="150" class="box-green"/>
+  <text x="450" y="562" class="h1">Firebase Auth</text>
+  <text x="450" y="596" class="body">Email/password + Google Sign-In</text>
+  <text x="450" y="626" class="body">Signed-in report writes</text>
+  <text x="450" y="656" class="body">Reporter name for letters</text>
+
+  <rect x="420" y="695" width="345" height="70" class="box-gray"/>
+  <text x="450" y="724" class="h1">Firebase Storage Rules</text>
+  <text x="450" y="752" class="small">report-images/* and verification-images/*</text>
+
+  <rect x="1248" y="620" width="205" height="78" class="box-red"/>
+  <text x="1275" y="650" class="h2">Cloud Scheduler</text>
+  <text x="1275" y="678" class="small">every 60 minutes</text>
+
+  <rect x="1470" y="620" width="200" height="78" class="box-dark"/>
+  <text x="1495" y="650" class="small-white">Server-side secrets</text>
+  <text x="1495" y="674" class="small-white">GEMINI_API_KEY</text>
+  <text x="1495" y="696" class="small-white">GEOCODE_KEY</text>
+
+  <path d="M345 306 C375 306 390 306 420 306" class="arrow-blue"/>
+  <text x="358" y="288" class="small">use app</text>
+  <path d="M765 260 C800 247 815 247 850 247" class="arrow-green"/>
+  <text x="790" y="231" class="small">static app</text>
+  <path d="M765 380 C805 435 820 505 850 535" class="arrow"/>
+  <text x="773" y="463" class="small">POST /api/**</text>
+  <path d="M1230 500 C1270 430 1285 320 1320 285" class="arrow-red"/>
+  <text x="1248" y="382" class="small">AI calls</text>
+  <path d="M1230 548 C1275 538 1295 515 1320 502" class="arrow-blue"/>
+  <text x="1245" y="574" class="small">geocode</text>
+  <path d="M850 585 C720 575 545 590 380 610" class="arrow-green"/>
+  <text x="575" y="567" class="small">reports + audit persistence</text>
+  <path d="M380 548 C405 535 415 535 420 580" class="arrow-dash"/>
+  <text x="392" y="532" class="small">auth rules</text>
+  <path d="M1320 502 C1140 730 640 745 380 650" class="arrow-blue"/>
+  <text x="785" y="756" class="small">map and dashboard read report geo points</text>
+  <path d="M1453 659 C1422 660 1265 660 1230 640" class="arrow-dash"/>
+  <text x="1262" y="620" class="small">scheduled SLA scan</text>
+  <path d="M1248 658 C1215 658 1238 658 1230 658" class="arrow-red"/>
+  <path d="M765 728 C800 728 812 710 850 660" class="arrow-dash"/>
+  <text x="770" y="712" class="small">image rules</text>
+
+  <rect x="60" y="830" width="1680" height="230" class="panel-blue"/>
+  <text x="90" y="873" class="label">SERVER-SIDE CIVIC AGENT WORKFLOW</text>
+
+  <g><rect x="100" y="915" width="178" height="92" class="box-red"/><circle cx="125" cy="940" r="16" fill="#ea4335"/><text x="120" y="946" class="num">1</text><text x="150" y="942" class="h2">Perceive</text><text x="125" y="973" class="small">Gemini Vision JSON</text><text x="125" y="993" class="small">anti-spam gate</text></g>
+  <g><rect x="318" y="915" width="178" height="92" class="box-blue"/><circle cx="343" cy="940" r="16" fill="#4285f4"/><text x="338" y="946" class="num">2</text><text x="368" y="942" class="h2">Locate</text><text x="343" y="973" class="small">GPS + geocode</text><text x="343" y="993" class="small">street/area label</text></g>
+  <g><rect x="536" y="915" width="178" height="92" class="box-green"/><circle cx="561" cy="940" r="16" fill="#34a853"/><text x="556" y="946" class="num">3</text><text x="586" y="942" class="h2">Dedupe</text><text x="561" y="973" class="small">same category</text><text x="561" y="993" class="small">within 60 meters</text></g>
+  <g><rect x="754" y="915" width="178" height="92" class="box-yellow"/><circle cx="779" cy="940" r="16" fill="#fbbc04"/><text x="774" y="946" class="num">4</text><text x="804" y="942" class="h2">Route</text><text x="779" y="973" class="small">department + SLA</text><text x="779" y="993" class="small">fallback dept</text></g>
+  <g><rect x="972" y="915" width="178" height="92" class="box-purple"/><circle cx="997" cy="940" r="16" fill="#9334e6"/><text x="992" y="946" class="num">5</text><text x="1022" y="942" class="h2">Draft</text><text x="997" y="973" class="small">formal complaint</text><text x="997" y="993" class="small">signed by user</text></g>
+  <g><rect x="1190" y="915" width="178" height="92" class="box-red"/><circle cx="1215" cy="940" r="16" fill="#ea4335"/><text x="1210" y="946" class="num">6</text><text x="1240" y="942" class="h2">Predict</text><text x="1215" y="973" class="small">risk score 0-100</text><text x="1215" y="993" class="small">worsening reason</text></g>
+  <g><rect x="1408" y="915" width="120" height="92" class="box-gray"/><circle cx="1433" cy="940" r="16" fill="#6b7280"/><text x="1428" y="946" class="num">7</text><text x="1457" y="942" class="h2">Audit</text><text x="1433" y="973" class="small">run, steps</text><text x="1433" y="993" class="small">actions, memory</text></g>
+  <g><rect x="1568" y="915" width="112" height="92" class="box-green"/><circle cx="1593" cy="940" r="16" fill="#34a853"/><text x="1588" y="946" class="num">8</text><text x="1616" y="942" class="h2">Verify</text><text x="1593" y="973" class="small">before/after</text><text x="1593" y="993" class="small">evidence</text></g>
+
+  <path d="M278 961 L318 961" class="arrow"/>
+  <path d="M496 961 L536 961" class="arrow"/>
+  <path d="M714 961 L754 961" class="arrow"/>
+  <path d="M932 961 L972 961" class="arrow"/>
+  <path d="M1150 961 L1190 961" class="arrow"/>
+  <path d="M1368 961 L1408 961" class="arrow"/>
+  <path d="M1528 961 L1568 961" class="arrow-green"/>
+
+  <text x="100" y="1040" class="small">Output: category, severity, address, department, SLA, complaint letter, escalation risk, status timeline, visible audit trail, and verification evidence.</text>
+  <text x="1235" y="1040" class="small">SLA monitor self-corrects failed departments through agent_memory.</text>
+</svg>

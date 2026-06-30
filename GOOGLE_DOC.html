@@ -30,6 +30,7 @@ Problem Statement 2 — “Community Hero: Hyperlocal Problem Solver”</p>
   <p>🔗 <strong>Live app:</strong> <a href="https://civicpulse-vibe2ship.web.app">https://civicpulse-vibe2ship.web.app</a></p>
   <p>🎬 <strong>Demo video:</strong> <a href="REPLACE_WITH_VIDEO_LINK">REPLACE_WITH_VIDEO_LINK</a> <span class="muted">(paste your YouTube-unlisted / Drive link)</span></p>
   <p>💻 <strong>GitHub repo:</strong> <a href="https://github.com/aariz51/Community-Hero---Hyperlocal-Problem-Solver">https://github.com/aariz51/Community-Hero---Hyperlocal-Problem-Solver</a></p>
+  <p>🔐 <strong>Judge login:</strong> <code>judge@civicpulse.app</code> / <code>CivicPulse@2026</code></p>
   <p>👤 <strong>Team:</strong> Aariz Rasheed</p>
 </div>
 
@@ -57,7 +58,7 @@ Problem Statement 2 — “Community Hero: Hyperlocal Problem Solver”</p>
     <tr><td>2</td><td><strong>Locate</strong></td><td>Grabs GPS (after showing a clear permission rationale) and <strong>reverse-geocodes</strong> the coordinates into a human-readable street/area name — not raw numbers.</td><td>Google Maps / Geocoding</td></tr>
     <tr><td>3</td><td><strong>Dedupe</strong></td><td>Checks for an existing nearby report of the same category so the city isn’t flooded with 50 copies of one pothole — the user is offered “verify the existing report” instead.</td><td>Geospatial proximity logic</td></tr>
     <tr><td>4</td><td><strong>Route</strong></td><td>Maps the category to the correct municipal department (e.g. Pothole → Public Works Dept) with the right SLA in days.</td><td>Department routing engine</td></tr>
-    <tr><td>5</td><td><strong>Draft</strong></td><td>Writes a formal, respectful, ready-to-send municipal complaint letter <strong>signed with the citizen’s real name</strong> (from their Google account), so anyone can file it without knowing how to write officialese.</td><td>Gemini 2.5 Flash</td></tr>
+    <tr><td>5</td><td><strong>Draft</strong></td><td>Writes a formal, respectful, ready-to-send municipal complaint letter <strong>signed with the citizen’s real name</strong> (from Firebase Auth), so anyone can file it without knowing how to write officialese.</td><td>Gemini 2.5 Flash</td></tr>
     <tr><td>6</td><td><strong>Predict</strong></td><td>Forecasts the <strong>escalation risk</strong> (0–100) — how much worse and more dangerous this issue gets if ignored (monsoon flooding, traffic accidents, disease), giving authorities a way to <em>prioritize</em>.</td><td>Gemini 2.5 Flash reasoning</td></tr>
   </tbody>
 </table>
@@ -72,7 +73,7 @@ Problem Statement 2 — “Community Hero: Hyperlocal Problem Solver”</p>
   <li>🏛 <strong>Authority dashboard</strong> — officials see all issues, severities, escalation risks, and can advance status through the lifecycle (Reported → Acknowledged → In Progress → Resolved → Verified Fixed).</li>
   <li>✅ <strong>Community fix-verification</strong> — after-photo + AI before/after comparison.</li>
   <li>🏆 <strong>Gamification</strong> — citizens earn civic points for reporting and verifying, driving participation.</li>
-  <li>🔐 <strong>Google Sign-In</strong> — one-tap auth; complaints are signed with the user’s real name.</li>
+  <li>🔐 <strong>Firebase Auth</strong> — email/password judge access, new ID creation, and Google Sign-In; complaints are signed with the user’s real name.</li>
   <li>🗣 <strong>Voice + chat civic assistant</strong> — ask about issues and impact in natural language.</li>
 </ul>
 
@@ -90,17 +91,18 @@ Problem Statement 2 — “Community Hero: Hyperlocal Problem Solver”</p>
 <ul>
   <li><strong>Google Gemini 2.5 Flash</strong> — Vision classification, structured JSON output, complaint drafting, escalation prediction, before/after verification, and a function-calling conversational agent.</li>
   <li><strong>Google Maps Platform</strong> — Maps JavaScript API (dark-themed live map), reverse geocoding (coordinates → worded address), custom heatmap overlay.</li>
-  <li><strong>Firebase</strong> — Authentication (Google Sign-In), Cloud Firestore (realtime reports database), Firebase Hosting.</li>
+  <li><strong>Firebase</strong> — Authentication (email/password + Google Sign-In), Cloud Firestore (realtime reports database), Firebase Storage, Firebase Hosting.</li>
   <li><strong>Google Cloud Run</strong> — a secure server-side Gemini proxy (Cloud Functions v2) that keeps the API key off the client.</li>
   <li><strong>Google AI Studio</strong> — used during development to prototype prompts.</li>
 </ul>
 
 <h2>7. Architecture (one paragraph)</h2>
-<p>A React + Vite single-page app is served from <strong>Firebase Hosting</strong>. All AI calls go to a <strong>Cloud Run</strong> Express service (<code>/api/*</code>) that holds the Gemini key server-side — the key is never exposed to the browser. Reports persist in <strong>Cloud Firestore</strong> in realtime, so the map, dashboard, and everyone’s screens update instantly. <strong>Google Maps</strong> renders the live map and reverse-geocoding. <strong>Firebase Auth</strong> handles Google Sign-In and supplies the citizen’s real name for complaint letters.</p>
+<p>A React + Vite single-page app is served from <strong>Firebase Hosting</strong>. All AI calls go to a <strong>Cloud Run</strong> Express service (<code>/api/*</code>) that holds the Gemini key server-side — the key is never exposed to the browser. Reports persist in <strong>Cloud Firestore</strong> in realtime, so the map, dashboard, and everyone’s screens update instantly. <strong>Google Maps</strong> renders the live map and reverse-geocoding. <strong>Firebase Auth</strong> handles email/password plus Google Sign-In and supplies the citizen’s real name for complaint letters.</p>
 
 <h2>8. Deployment &amp; access</h2>
 <ul>
   <li><strong>Live URL:</strong> <a href="https://civicpulse-vibe2ship.web.app">https://civicpulse-vibe2ship.web.app</a> (fully deployed on Google Cloud — Firebase Hosting + Cloud Run).</li>
+  <li><strong>Judge login:</strong> <code>judge@civicpulse.app</code> / <code>CivicPulse@2026</code></li>
   <li><strong>Demo video:</strong> see link at the top (full walkthrough of reporting, the 6-agent pipeline, the live map + heatmap, the authority dashboard, and AI fix-verification).</li>
   <li><strong>Source code:</strong> <a href="https://github.com/aariz51/Community-Hero---Hyperlocal-Problem-Solver">GitHub repository</a>.</li>
 </ul>

@@ -11,7 +11,7 @@ function Globe() {
 }
 
 export default function NavBar() {
-  const { user, profile, login, logout } = useAuth()
+  const { user, profile, logout } = useAuth()
   const loc = useLocation()
   const link = (to, label) => (
     <Link to={to} className={loc.pathname === to ? 'navlink active' : 'navlink'}>{label}</Link>
@@ -37,7 +37,7 @@ export default function NavBar() {
               <button className="btn btn-ghost btn-sm liquid-glass" onClick={logout}>Sign out</button>
             </div>
           ) : (
-            <button className="btn btn-ghost btn-sm liquid-glass" onClick={login}>Sign in</button>
+            <Link to="/report" className="btn btn-ghost btn-sm liquid-glass">Sign in</Link>
           )}
         </div>
       </div>

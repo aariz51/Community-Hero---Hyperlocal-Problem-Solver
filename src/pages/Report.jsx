@@ -2,12 +2,13 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useReports } from '../hooks/useReports'
+import AuthPanel from '../components/AuthPanel'
 import { fileToCompressed } from '../lib/imageUtils'
 import { getCurrentPosition } from '../lib/geo'
-import { reverseGeocode } from '../lib/mapsLoader'
-import { classifyIssue, draftComplaint, predictEscalation } from '../lib/api'
+import { attachAgentRunToReport, runReportAgent } from '../lib/api'
 import { routeToDepartment, CATEGORIES, CATEGORY_META, SEVERITY_COLOR } from '../agent/departments'
 import { createReport, findNearbyDuplicate, upvoteReport } from '../lib/reports'
+import { uploadReportImage } from '../lib/storageUploads'
 
 const STEPS = [
   ['perceive', 'eye', 'Perceiving image (Gemini Vision)'],
@@ -35,7 +36,7 @@ function StepIcon({ name }) {
 }
 
 export default function Report() {
-  const { user, login } = useAuth()
+  const { user } = useAuth()
   const { reports } = useReports()
   const nav = useNavigate()
   const cameraRef = useRef()
@@ -65,53 +66,42 @@ export default function Report() {
     if (!img) return
     setRunning(true); setError(''); setDuplicate(null)
     try {
-      mark('perceive', 'run')
-      const cls = await classifyIssue(img.base64, img.mimeType)
-      if (!cls.isCivicIssue || !cls.isGenuine) {
-        mark('perceive', 'fail')
-        setError(`This doesn't look like a genuine civic issue (${cls.description}). Please upload a clear photo of the problem.`)
-        setRunning(false); return
-      }
-      mark('perceive', 'done')
-
-      // 2. Locate — request GPS, then reverse-geocode to a worded address
-      mark('locate', 'run')
-      let geo, address
+      STEPS.forEach(([k]) => mark(k, 'run'))
+      let geo
       try {
         geo = await getCurrentPosition()
-        address = await reverseGeocode(geo)   // human-readable street / area / city
       } catch {
         geo = { lat: 28.6139, lng: 77.209 }
-        address = ''  // editable below — user can type the exact place
       }
-      mark('locate', 'done')
 
-      mark('dedupe', 'run')
-      const dup = findNearbyDuplicate(reports, geo, cls.category)
-      mark('dedupe', 'done')
-
-      mark('route', 'run')
-      const routing = routeToDepartment(cls.category)
-      mark('route', 'done')
-
-      const base = {
-        category: cls.category, severity: cls.severity, description: cls.description,
-        confidence: cls.confidence, address, geo,
-        department: routing.department, sla: routing.slaDays,
+      const agent = await runReportAgent({
+        image: img.base64,
+        mimeType: img.mimeType,
+        geo,
         reporterName,
+        userId: user?.uid,
+        activeReports: reports.map((r) => ({
+          id: r.id,
+          category: r.category,
+          status: r.status,
+          address: r.address,
+          geo: r.geo,
+        })),
+      })
+
+      if (agent.rejected) {
+        mark('perceive', 'fail')
+        setError(`This doesn't look like a genuine civic issue (${agent.classification?.description || 'image rejected'}). Please upload a clear photo of the problem.`)
+        setRunning(false); return
       }
 
-      mark('draft', 'run')
-      let complaintLetter = ''
-      try { complaintLetter = (await draftComplaint(base)).letter } catch {}
-      mark('draft', complaintLetter ? 'done' : 'fail')
+      const serverResult = agent.result || {}
+      STEPS.forEach(([k]) => mark(k, 'done'))
+      if (!serverResult.complaintLetter) mark('draft', 'fail')
+      if (!serverResult.prediction) mark('predict', 'fail')
 
-      mark('predict', 'run')
-      let prediction = null
-      try { prediction = await predictEscalation(base) } catch {}
-      mark('predict', prediction ? 'done' : 'fail')
-
-      setResult({ ...base, complaintLetter, prediction })
+      setResult(serverResult)
+      const dup = agent.duplicate || findNearbyDuplicate(reports, geo, serverResult.category)
       if (dup) setDuplicate(dup)
     } catch (e) {
       setError(e.message || 'Agent failed. Check the Gemini API key on the server.')
@@ -124,10 +114,12 @@ export default function Report() {
     if (!result || !user) return
     setSubmitting(true)
     try {
+      const photo = await uploadReportImage(user.uid, img.dataUrl)
       const id = await createReport({
         userId: user.uid,
         userName: reporterName,
-        photoUrl: img.dataUrl,
+        photoUrl: photo.url,
+        photoStoragePath: photo.path,
         category: result.category,
         severity: result.severity,
         description: result.description,
@@ -139,7 +131,10 @@ export default function Report() {
         complaintLetter: result.complaintLetter || '',
         escalationRisk: result.prediction?.riskScore ?? null,
         escalationReason: result.prediction?.reason ?? '',
+        fallbackDepartment: result.fallbackDepartment || '',
+        agentRunId: result.agentRunId || '',
       })
+      if (result.agentRunId) await attachAgentRunToReport(result.agentRunId, id, user.uid)
       nav(`/issue/${id}`)
     } catch (e) { setError(e.message) } finally { setSubmitting(false) }
   }
@@ -152,9 +147,10 @@ export default function Report() {
 
   if (!user) return (
     <div className="page narrow center">
-      <h2>Report a civic issue</h2>
-      <p className="muted">Sign in to file and track reports. Your reports earn you civic points.</p>
-      <button className="btn btn-primary" onClick={login}>Sign in with Google</button>
+      <AuthPanel
+        title="Report a civic issue"
+        subtitle="Sign in with the demo ID or create an account to file and track reports."
+      />
     </div>
   )
 

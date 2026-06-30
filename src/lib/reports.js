@@ -1,6 +1,6 @@
 // Firestore data layer for reports + gamification (points/badges) + dedupe.
 import {
-  collection, addDoc, doc, getDoc, updateDoc, onSnapshot, query, orderBy,
+  collection, addDoc, doc, getDoc, getDocs, updateDoc, onSnapshot, query, orderBy, where,
   serverTimestamp, increment, arrayUnion, runTransaction,
 } from 'firebase/firestore'
 import { db } from '../firebase'
@@ -19,6 +19,42 @@ export function subscribeReports(cb) {
 export async function getReport(id) {
   const snap = await getDoc(doc(db, 'reports', id))
   return snap.exists() ? { id: snap.id, ...snap.data() } : null
+}
+
+function sortByTime(items) {
+  return [...items].sort((a, b) => {
+    const av = a.createdAt?.toMillis?.() || a.updatedAt?.toMillis?.() || Date.parse(a.startedAt || a.completedAt || '') || 0
+    const bv = b.createdAt?.toMillis?.() || b.updatedAt?.toMillis?.() || Date.parse(b.startedAt || b.completedAt || '') || 0
+    return av - bv
+  })
+}
+
+async function byField(collectionName, field, value) {
+  if (!value) return []
+  const snap = await getDocs(query(collection(db, collectionName), where(field, '==', value)))
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }))
+}
+
+export async function getAgentEvidence(reportId, agentRunId = null) {
+  const directRun = agentRunId ? await getDoc(doc(db, 'agent_runs', agentRunId)) : null
+  const reportRuns = await byField('agent_runs', 'reportId', reportId)
+  const runsById = new Map(reportRuns.map((r) => [r.id, r]))
+  if (directRun?.exists()) runsById.set(directRun.id, { id: directRun.id, ...directRun.data() })
+
+  const runs = sortByTime([...runsById.values()])
+  const steps = []
+  const actions = []
+  for (const run of runs) {
+    steps.push(...await byField('agent_steps', 'runId', run.id))
+    actions.push(...await byField('agent_actions', 'runId', run.id))
+  }
+
+  return {
+    runs,
+    steps: sortByTime(steps),
+    actions: sortByTime(actions),
+    evidence: sortByTime(await byField('verification_evidence', 'reportId', reportId)),
+  }
 }
 
 // Dedupe: find an existing OPEN report of the same category within 60m.

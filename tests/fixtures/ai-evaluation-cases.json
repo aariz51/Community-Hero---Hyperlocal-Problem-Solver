@@ -1,0 +1,162 @@
+[
+  {
+    "id": "pothole-critical-01",
+    "imageDescription": "Deep circular pothole filled with rainwater in the middle of a busy two-lane road; motorbikes are swerving around it.",
+    "userDescription": "Dangerous pothole near the market turn causing two-wheeler accidents.",
+    "expectedCategory": "Pothole",
+    "expectedSeverity": "Critical",
+    "expectedDepartment": "Public Works Dept (PWD)"
+  },
+  {
+    "id": "pothole-high-02",
+    "imageDescription": "Large broken asphalt patch spanning half a lane near an intersection.",
+    "userDescription": "Road surface collapsed after recent rain.",
+    "expectedCategory": "Pothole",
+    "expectedSeverity": "High",
+    "expectedDepartment": "Public Works Dept (PWD)"
+  },
+  {
+    "id": "road-damage-medium-03",
+    "imageDescription": "Long cracked road segment with uneven edges but still passable traffic.",
+    "userDescription": "Road cracks are expanding across the lane.",
+    "expectedCategory": "Road Damage",
+    "expectedSeverity": "Medium",
+    "expectedDepartment": "Public Works Dept (PWD)"
+  },
+  {
+    "id": "water-leakage-critical-04",
+    "imageDescription": "Burst underground pipe flooding a residential street and entering shop fronts.",
+    "userDescription": "Water has been flowing for hours and blocking pedestrians.",
+    "expectedCategory": "Water Leakage",
+    "expectedSeverity": "Critical",
+    "expectedDepartment": "Water Supply & Sewerage Board"
+  },
+  {
+    "id": "water-leakage-medium-05",
+    "imageDescription": "Broken roadside tap leaking continuously into the gutter.",
+    "userDescription": "Public tap valve is broken and wasting water.",
+    "expectedCategory": "Water Leakage",
+    "expectedSeverity": "Medium",
+    "expectedDepartment": "Water Supply & Sewerage Board"
+  },
+  {
+    "id": "streetlight-high-06",
+    "imageDescription": "Entire row of streetlights off on a dark pedestrian road at night.",
+    "userDescription": "No lights on this stretch after 7 PM; unsafe for pedestrians.",
+    "expectedCategory": "Streetlight",
+    "expectedSeverity": "High",
+    "expectedDepartment": "Electrical / Street Lighting"
+  },
+  {
+    "id": "streetlight-low-07",
+    "imageDescription": "Single streetlight flickering near a bus stop while neighboring lights work.",
+    "userDescription": "One light flickers repeatedly.",
+    "expectedCategory": "Streetlight",
+    "expectedSeverity": "Low",
+    "expectedDepartment": "Electrical / Street Lighting"
+  },
+  {
+    "id": "garbage-critical-08",
+    "imageDescription": "Large illegal dump of mixed waste spilling onto the road beside a school gate.",
+    "userDescription": "Garbage pile smells bad and blocks students walking to school.",
+    "expectedCategory": "Garbage/Waste",
+    "expectedSeverity": "Critical",
+    "expectedDepartment": "Sanitation & Waste Management"
+  },
+  {
+    "id": "garbage-high-09",
+    "imageDescription": "Overflowing municipal bins with loose trash across a market footpath.",
+    "userDescription": "Bins have not been cleared for three days.",
+    "expectedCategory": "Garbage/Waste",
+    "expectedSeverity": "High",
+    "expectedDepartment": "Sanitation & Waste Management"
+  },
+  {
+    "id": "drainage-critical-10",
+    "imageDescription": "Open storm drain blocked by debris, causing knee-deep waterlogging during rain.",
+    "userDescription": "Blocked drain floods the whole junction.",
+    "expectedCategory": "Drainage",
+    "expectedSeverity": "Critical",
+    "expectedDepartment": "Water Supply & Sewerage Board"
+  },
+  {
+    "id": "drainage-medium-11",
+    "imageDescription": "Partially clogged roadside drain with stagnant water and visible plastic.",
+    "userDescription": "Drain needs cleaning before next rain.",
+    "expectedCategory": "Drainage",
+    "expectedSeverity": "Medium",
+    "expectedDepartment": "Water Supply & Sewerage Board"
+  },
+  {
+    "id": "fallen-tree-high-12",
+    "imageDescription": "Large tree branch fallen across one lane after a storm.",
+    "userDescription": "Tree branch is blocking traffic and may damage vehicles.",
+    "expectedCategory": "Fallen Tree",
+    "expectedSeverity": "High",
+    "expectedDepartment": "Parks & Horticulture"
+  },
+  {
+    "id": "fallen-tree-medium-13",
+    "imageDescription": "Small fallen branch blocking part of a footpath.",
+    "userDescription": "Branch needs removal from sidewalk.",
+    "expectedCategory": "Fallen Tree",
+    "expectedSeverity": "Medium",
+    "expectedDepartment": "Parks & Horticulture"
+  },
+  {
+    "id": "other-low-14",
+    "imageDescription": "Bent public signboard leaning near a low-traffic lane.",
+    "userDescription": "Signboard is damaged but not blocking the road.",
+    "expectedCategory": "Other",
+    "expectedSeverity": "Low",
+    "expectedDepartment": "Municipal Grievance Cell"
+  },
+  {
+    "id": "road-damage-high-15",
+    "imageDescription": "Road shoulder collapsed next to an uncovered trench.",
+    "userDescription": "Road edge is broken and unsafe for cyclists.",
+    "expectedCategory": "Road Damage",
+    "expectedSeverity": "High",
+    "expectedDepartment": "Public Works Dept (PWD)"
+  },
+  {
+    "id": "pothole-medium-16",
+    "imageDescription": "Cluster of shallow potholes after utility digging work.",
+    "userDescription": "Small potholes make the road bumpy.",
+    "expectedCategory": "Pothole",
+    "expectedSeverity": "Medium",
+    "expectedDepartment": "Public Works Dept (PWD)"
+  },
+  {
+    "id": "water-leakage-high-17",
+    "imageDescription": "Water leaking from a broken pipe into an electrical utility box area.",
+    "userDescription": "Pipe leak is close to wiring and needs urgent repair.",
+    "expectedCategory": "Water Leakage",
+    "expectedSeverity": "High",
+    "expectedDepartment": "Water Supply & Sewerage Board"
+  },
+  {
+    "id": "streetlight-medium-18",
+    "imageDescription": "Two dead lamps on a residential street with partial lighting from nearby houses.",
+    "userDescription": "Street is dim and unsafe at night.",
+    "expectedCategory": "Streetlight",
+    "expectedSeverity": "Medium",
+    "expectedDepartment": "Electrical / Street Lighting"
+  },
+  {
+    "id": "garbage-medium-19",
+    "imageDescription": "Small garbage pile beside a park wall, not yet spilling onto road.",
+    "userDescription": "Waste has collected near the park entrance.",
+    "expectedCategory": "Garbage/Waste",
+    "expectedSeverity": "Medium",
+    "expectedDepartment": "Sanitation & Waste Management"
+  },
+  {
+    "id": "drainage-high-20",
+    "imageDescription": "Drain cover missing on a sidewalk with a deep opening visible.",
+    "userDescription": "Open drain hole can injure pedestrians.",
+    "expectedCategory": "Drainage",
+    "expectedSeverity": "High",
+    "expectedDepartment": "Water Supply & Sewerage Board"
+  }
+]

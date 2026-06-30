@@ -98,7 +98,7 @@ users/{id}: { name, points, badges[], reportCount }
 
 ## Keys to grab (one-time)
 1. **Firebase:** console → create project → add Web app → copy `firebaseConfig`;
-   enable Authentication (Google), Firestore, Storage.
+   enable Authentication (email/password + Google), Firestore, Storage.
 2. **Maps Platform:** enable Maps JavaScript API + Geocoding API + Places API →
    create API key (restrict to site domain).
 3. **Gemini API key:** already have.
