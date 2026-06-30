@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { getAgentEvidence, getReport, advanceStatus, upvoteReport, updateReportFields } from '../lib/reports'
-import { fileToCompressed, base64FromSource } from '../lib/imageUtils'
+import { fileToCompressed } from '../lib/imageUtils'
 import { verifyResolutionEvidence } from '../lib/api'
 import { CATEGORY_META, SEVERITY_COLOR, STATUS_FLOW, STATUS_LABEL } from '../agent/departments'
 import { uploadVerificationImage } from '../lib/storageUploads'
@@ -64,16 +64,15 @@ export default function IssueDetail() {
   async function vote() { if (!user) return; await upvoteReport(id, user.uid); await reload() }
 
   async function onAfter(e) {
-    const file = e.target.files?.[0]; if (!file) return
+      const file = e.target.files?.[0]; if (!file) return
     setBusy(true); setMsg(''); setVerify(null)
     try {
       const after = await fileToCompressed(file)
-      const beforeBase64 = await base64FromSource(r.photoUrl)
       const uploaded = await uploadVerificationImage(user.uid, after.dataUrl)
       const v = await verifyResolutionEvidence({
         reportId: id,
         userId: user?.uid || null,
-        before: beforeBase64,
+        beforePhotoUrl: r.photoUrl,
         after: after.base64,
         afterPhotoUrl: uploaded.url,
         mimeType: after.mimeType,

@@ -72,6 +72,12 @@ export default function Dashboard() {
         {stat(avgDays + (avgDays === '—' ? '' : 'd'), 'Avg. resolution')}
       </div>
 
+      <div className="sr-only" aria-label="Dashboard report index">
+        {reports.map((r) => (
+          <a key={r.id} href={`/issue/${r.id}`}>{r.id} {r.category} {r.status} {r.address}</a>
+        ))}
+      </div>
+
       <div className="d-cols">
         <div className="d-card liquid-glass">
           <h3>🚨 Triage queue <span className="muted">(by severity & risk)</span></h3>

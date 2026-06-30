@@ -125,9 +125,12 @@ Or run individual checks:
 npm run test:agent
 npm run test:rules
 npm run test:e2e
+
+# Optional heavy live test against deployed Firebase/Gemini services
+PLAYWRIGHT_BASE_URL=https://civicpulse-vibe2ship.web.app npm run test:e2e:full
 ```
 
-The agent test runs the orchestrator against an in-memory Firestore-shaped store to prove run logging, actions, fix evidence, and SLA self-correction without requiring local Firebase Admin credentials. The E2E suite checks the public app shell, map, dashboard, and email/password auth entry locally.
+The agent test runs the orchestrator against an in-memory Firestore-shaped store to prove run logging, actions, fix evidence, and SLA self-correction without requiring local Firebase Admin credentials. The default E2E suite checks the public app shell, map, dashboard, and email/password auth entry locally. The full-flow E2E is intentionally opt-in because it creates a real authenticated report, runs Gemini, writes Firebase Storage/Firestore records, and verifies fix evidence on the live deployment.
 
 ## License
 

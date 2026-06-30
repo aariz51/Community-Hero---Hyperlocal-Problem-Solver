@@ -65,6 +65,14 @@ function routeToDepartment(category) {
   return ROUTING[category] || ROUTING.Other
 }
 
+async function imageBase64FromSource(source) {
+  if (!source) return ''
+  if (source.startsWith('data:')) return source.split(',')[1] || ''
+  const response = await fetch(source)
+  if (!response.ok) throw new Error(`Could not load image evidence (${response.status}).`)
+  return Buffer.from(await response.arrayBuffer()).toString('base64')
+}
+
 function distanceMeters(a, b) {
   const R = 6371000
   const toRad = (d) => (d * Math.PI) / 180
@@ -385,10 +393,11 @@ export async function verifyResolutionWithEvidence(ai, input = {}) {
   })
   const runId = runRef?.id || `verify_${Date.now()}`
   await recordStep(runId, 'compare_before_after', 'running')
+  const before = input.before || await imageBase64FromSource(input.beforePhotoUrl)
   const output = await geminiJson(ai, {
     model: MODEL,
     contents: [{ role: 'user', parts: [
-      { text: `BEFORE photo of a reported "${input.category}" issue:` }, img(input.before, input.mimeType),
+      { text: `BEFORE photo of a reported "${input.category}" issue:` }, img(before, input.beforeMimeType || input.mimeType),
       { text: 'AFTER photo claiming it is now fixed:' }, img(input.after, input.mimeType),
       { text: `Compare them. Has the ${input.category} issue genuinely been resolved in the AFTER photo? Be skeptical of mismatched locations or staged photos.` },
     ] }],

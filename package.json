@@ -12,6 +12,7 @@
     "test:agent": "node --test tests/agent/*.test.mjs",
     "test:rules": "node --test tests/rules/*.test.mjs",
     "test:e2e": "playwright test",
+    "test:e2e:full": "E2E_FULL_FLOW=1 playwright test tests/e2e/full-flow.spec.js",
     "test:all": "npm run test:agent && npm run test:rules && npm run build && npm run test:e2e"
   },
   "dependencies": {

@@ -141,6 +141,11 @@ export default function MapView() {
       </div>
       {err && <div className="alert error">{err}</div>}
       <div ref={mapRef} className="map-canvas" />
+      <div className="sr-only" aria-label="Map report index">
+        {filtered.map((r) => (
+          <a key={r.id} href={`/issue/${r.id}`}>{r.id} {r.category} {r.address}</a>
+        ))}
+      </div>
       <div className="legend">
         {CATEGORIES.map((c) => (
           <span key={c} className="leg"><i style={{ background: CATEGORY_META[c]?.color }} />{CATEGORY_META[c]?.icon} {c}</span>
